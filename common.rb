@@ -18,12 +18,13 @@ class Db
     all.each do |rec|
       puts rec.run_status(start)
     end
+    puts "total refreshes: #{all.map { |rec| rec.table.size }.inject(&:+)}"
   end
 end
 
 # this is a database record
 class Record
-  attr_accessor :last_updated, :id, :alert
+  attr_accessor :last_updated, :id, :alert, :table
   def initialize(id, alert = false, last_updated = nil)
     @id = id
     @alert = alert
@@ -46,7 +47,7 @@ class Record
   end
 
   def run_status(start)
-    "#{id}: #{@table.size}: #{@table.map { |t| "%02d" % (t.first - start) }.join(" ")}"
+    "#{id}: #{@table.map { |t| "%02d" % (t.first - start) }.join(" ")}"
   end
 end
 
@@ -58,10 +59,13 @@ class Q
   def initialize
     @que = []
     @waiting = []
-    @mutex = Mutex.new    
+    @mutex = Mutex.new
+    @count = 0
   end
+
   def push(obj)
     @mutex.synchronize do
+      @count += 1
       @que.push(obj)
       begin
         t = @waiting.shift
@@ -86,6 +90,9 @@ class Q
     end
   end
 
+  # We implemented queue so we could
+  # add this method
+  # otherwise thread / queue would have been faster
   def find(h)
     @mutex.synchronize do
       @que.detect { |x| x[:id] == h[:id] }
@@ -95,7 +102,12 @@ class Q
   def size
     @que.size
   end
+
   def empty?
     @que.empty?
+  end
+
+  def run_status
+    puts "processed #{@count} messages"
   end
 end
