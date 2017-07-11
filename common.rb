@@ -111,3 +111,37 @@ class Q
     puts "processed #{@count} messages"
   end
 end
+
+class Red
+  def initialize
+    @data      = {}
+    @padding   = 3 # amount of time to pad on record
+    @attempts  = 0
+    @processed = 0
+  end
+
+  # does this pass the filter
+  def pass?(id)
+    now = Time.now
+    previous_run = @data[id]
+    @attempts += 1
+    if previous_run.nil? || previous_run < now
+      @data[id] = now + @padding
+      true
+    else
+      false
+    end
+  end
+
+  # mark this one as having been processed / reset it
+  def mark(id)
+    now = Time.now
+    @data[id] = now + @padding - 1
+    @processed += 1
+  end
+
+  def run_status
+    puts "filter attempts #{@attempts}"
+    puts "filter passed #{@processed}"
+  end
+end
