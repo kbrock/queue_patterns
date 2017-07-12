@@ -52,7 +52,7 @@ class Coordinator # producer
       end
     end
   end
-  def block_until_done # *** special code of interest
+  def block_until_done
     while !@q.empty?
       puts "", "00:#{"%02d" % (Time.now - START)} WAIT q=#{@q.size}"
       sleep(1)
