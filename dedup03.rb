@@ -42,6 +42,7 @@ class Coordinator # producer
       t = rec.status
       msg = {:id => rec.id}
       if t
+        # this is the core of put_unless_exists
         if @q.find(msg) # *** special code of interest
           t = "X"
         else

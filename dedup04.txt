@@ -1,129 +1,129 @@
-redis processing count
+client filter on date of last processed
 
 00:00 WORK q=0 
 NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN......................................
 00:02 WORK q=60 WARNING non empty queue
-NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN.......................................
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN......................................
 00:04 WORK q=84 WARNING non empty queue
-AAAAAANNNNNNNNNNNNNNNNNNNNNNN.......................................
-00:06 WORK q=73 WARNING non empty queue
-AAAAAAAAAAAAAAA......................................
-00:08 WORK q=50 WARNING non empty queue
-AAAAAAAAAAAAAA..................................................................
+AAAAAANNNNNNNNNNNNNNNNNNNNNNNN..............................
+00:06 WORK q=0 
+AAAAAAAAAAAAAA..............
+00:08 WORK q=0 
+AAAAAAAAAAAA............
 00:10 WORK q=0 
-AAAAAAAAAA..........
+AAAAAAAAAAAAAAAAAAAAAA......................
 00:12 WORK q=0 
-A++A++A++A++A++A++A++A++A++A++A++A+++AAAAAAAAA......................................
-00:14 WORK q=6 WARNING non empty queue
-AAAAAAAAAAAAAAAAAAAAA.............................
-00:16 WORK q=0 
-AAAAAA+++++++++++.................
++++++++++++++++++++++++++AAAAAAAAAAAA.....................................
+00:14 WORK q=0 
+AAAAAAAAAAAAA+A++A++A++A++A++++++++++++++++++......................................
+00:16 WORK q=5 WARNING non empty queue
+AA+++++++++++++++++++A++A.........................
 00:18 WORK q=0 
-AAAAAAAAAAAAA++A++A++A++A++A++++A++A++A++A++A++A+AAA......................................
-00:20 WORK q=12 WARNING non empty queue
-AAAAAAAA++A++A++A++A++A++A........................................
+AAAAAAAAAAAAAAAAAAAAAAAAAAA...........................
+00:20 WORK q=0 
+AAAAA.....
 00:22 DONE q=0
-vm00: 00 08 12 16 20
+vm00: 00 05 10 14 18
 vm01: 00 12
 vm02: 00 12
-vm03: 00 08 12 16 20
+vm03: 00 05 10 14 18
 vm04: 00 12
 vm05: 00 12
-vm06: 00 08 12 16 20
+vm06: 00 05 10 14 18
 vm07: 00 12
 vm08: 00 12
-vm09: 00 08 12 16 20
+vm09: 00 05 10 14 18
 vm10: 00 12
 vm11: 00 12
-vm12: 00 08 12 16 21
+vm12: 00 05 10 14 18
 vm13: 00 12
 vm14: 00 12
-vm15: 00 08 12 16 21
+vm15: 00 05 10 14 18
 vm16: 00 12
 vm17: 00 12
-vm18: 01 08 13 18
-vm19: 01 13
-vm20: 01 13
-vm21: 01 08 13 18
-vm22: 01 13
-vm23: 01 13
-vm24: 01 08 13 18
-vm25: 01 13
-vm26: 01 13
-vm27: 01 08 13 18
+vm18: 01 06 10 14 18
+vm19: 01 12
+vm20: 01 12
+vm21: 01 06 10 14 18
+vm22: 01 12
+vm23: 01 12
+vm24: 01 06 10 14 18
+vm25: 01 12
+vm26: 01 12
+vm27: 01 06 10 14 18
 vm28: 01 13
 vm29: 01 13
-vm30: 01 08 13 18
+vm30: 01 06 10 14 18
 vm31: 01 13
 vm32: 01 13
-vm33: 01 08 13 18
+vm33: 01 06 10 14 18
 vm34: 01 13
 vm35: 01 13
-vm36: 01 09 14 18
+vm36: 01 06 10 14 18
 vm37: 01 13
-vm38: 02 05 16
-vm39: 02 05 10 14 18
-vm40: 02 05 16
-vm41: 02 05 16
-vm42: 02 05 10 14 18
-vm43: 02 05 16
-vm44: 02 05 16
-vm45: 02 05 10 14 18
-vm46: 02 05 16
-vm47: 02 05 16
-vm48: 02 05 10 14 18
-vm49: 02 05 16
-vm50: 02 05 16
-vm51: 02 05 10 14 18
-vm52: 02 05 16
-vm53: 02 05 16
-vm54: 02 06 09 14 18
-vm55: 02 06 18
-vm56: 02 06 18
-vm57: 02 06 09 14 18
-vm58: 03 06 18
-vm59: 03 06 18
-vm60: 03 06 10 14 19
-vm61: 03 06 19
-vm62: 03 06 19
-vm63: 03 06 10 14 19
-vm64: 03 06 19
-vm65: 03 06 19
-vm66: 03 06 10 15 19
-vm67: 03 06 19
-vm68: 03 06 19
-vm69: 03 06 10 15 19
-vm70: 03 06 19
-vm71: 03 06 19
-vm72: 03 07 10 15 21
-vm73: 03 07 19
-vm74: 03 07 19
-vm75: 03 07 13 19
-vm76: 04 07 19
-vm77: 04 07 19
-vm78: 04 07 14 19
-vm79: 04 07 19
-vm80: 04 07 19
-vm81: 04 07 14 20
-vm82: 04 07 20
-vm83: 04 07 20
-vm84: 04 07 14 20
-vm85: 04 07 20
-vm86: 04 07 20
-vm87: 04 07 14 20
-vm88: 04 07 20
-vm89: 04 07 20
-vm90: 04 07 14 20
-vm91: 04 07 20
-vm92: 04 08 21
-vm93: 04 08 14 20
-vm94: 04 08 21
-vm95: 04 08 21
-vm96: 05 08 14 20
-vm97: 05 08 21
-vm98: 05 08 21
-vm99: 05 08 14 20
-total refreshes: 327
-processed 392 messages
-filter attempts 392
-filter passed 327
+vm38: 02 14
+vm39: 02 06 10 14 18
+vm40: 02 14
+vm41: 02 14
+vm42: 02 06 10 14 18
+vm43: 02 15
+vm44: 02 15
+vm45: 02 06 10 15 20
+vm46: 02 15
+vm47: 02 15
+vm48: 02 06 10 15 20
+vm49: 02 15
+vm50: 02 15
+vm51: 02 06 10 15 20
+vm52: 02 15
+vm53: 02 15
+vm54: 02 06 11 16 20
+vm55: 02 15
+vm56: 02 15
+vm57: 02 06 11 16 20
+vm58: 03 15
+vm59: 03 15
+vm60: 03 08 13 18
+vm61: 03 15
+vm62: 03 15
+vm63: 03 08 13 18
+vm64: 03 15
+vm65: 03 15
+vm66: 03 08 13 18
+vm67: 03 15
+vm68: 03 16
+vm69: 03 08 13 19
+vm70: 03 16
+vm71: 03 16
+vm72: 03 08 13 19
+vm73: 03 16
+vm74: 03 16
+vm75: 03 08 13 19
+vm76: 04 16
+vm77: 04 16
+vm78: 04 08 13 19
+vm79: 04 16
+vm80: 04 16
+vm81: 04 08 13 19
+vm82: 04 16
+vm83: 04 16
+vm84: 04 08 13 19
+vm85: 04 16
+vm86: 04 16
+vm87: 04 08 13 19
+vm88: 04 16
+vm89: 04 16
+vm90: 04 08 13 19
+vm91: 04 16
+vm92: 04 17
+vm93: 04 08 13 19
+vm94: 04 17
+vm95: 04 17
+vm96: 05 11 17
+vm97: 05 17
+vm98: 05 17
+vm99: 05 11 17
+total refreshes: 286
+processed 379 messages
+filter attempts 379
+filter passed 286

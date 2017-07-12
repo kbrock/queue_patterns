@@ -121,12 +121,11 @@ class Red
   end
 
   # does this pass the filter
-  def pass?(id)
-    now = Time.now
+  def pass?(id, dt)
     previous_run = @data[id]
     @attempts += 1
-    if previous_run.nil? || previous_run < now
-      @data[id] = now + @padding
+    if previous_run.nil? || previous_run < dt
+      @data[id] = Time.now + @padding
       true
     else
       false
