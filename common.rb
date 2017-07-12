@@ -7,18 +7,24 @@ class Db
   def initialize
     @mutex = Mutex.new
     @data = {}
+    @writes = 0
+    @reads = 0
   end
-  def []=(n, v) ; @mutex.synchronize { @data[n] = v } ; end
-  def [](n)     ; @mutex.synchronize { @data[n] } ; end
+  def []=(n, v) ; @mutex.synchronize { @reads += 1 ; @data[n] = v } ; end
+  def [](n)     ; @mutex.synchronize { @writes += 1 ; @data[n] } ; end
   def all
     @mutex.synchronize { @data.values } #.map(&:dup)
   end
 
   def run_status(start)
-    all.each do |rec|
-      puts rec.run_status(start)
+    puts "total writes: #{@writes}"
+    puts "total reads:  #{@reads}"
+    if @data.first.respond_to?(:run_status)
+      all.each do |rec|
+        puts rec.run_status(start)
+      end
+      puts "total refreshes: #{all.map { |rec| rec.table.size }.inject(&:+)}"
     end
-    puts "total refreshes: #{all.map { |rec| rec.table.size }.inject(&:+)}"
   end
 end
 
