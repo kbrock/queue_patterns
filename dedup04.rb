@@ -18,7 +18,10 @@ class Collector # worker
 
   def run
     while (msg = @q.pop(false) rescue nil) do
-      filter(msg) { process(msg) } # *** special code of interest
+      filter(msg) do # *** special code of interest
+        process(msg)
+        print "."
+      end
     end
   end
 
@@ -32,7 +35,6 @@ class Collector # worker
     record = @db[msg[:id]]       # find
     sleep DELAY # rand(0)        # work TODO: add hang or exception
     @db[msg[:id]] = record.touch # save
-    print "."
   end
 end
 
@@ -48,14 +50,16 @@ class Coordinator # producer
       t = rec.status
       msg = {:id => rec.id, :queued => Time.now}
       if t
-        @q.push(msg)
+        if true # producer filtering would go here
+          @q.push(msg)
+        end
         print t
       end
     end
     puts
     print "      "
   end
-  def block_until_done # *** special code of interest
+  def block_until_done
     while !@q.empty?
       puts "", "00:#{"%02d" % (Time.now - START)} WAIT q=#{@q.size}"
       sleep(1)
