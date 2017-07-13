@@ -14,13 +14,16 @@ DELAY           = 0.1 # time each work item takes
 class Collector # worker
   def initialize(my_n, db, q)
     @my_n, @q, @db = my_n, q, db
+    @processed = 0
   end
 
   def run
     while (msg = @q.pop(false) rescue nil) do
-      process(msg)
-      # @q.ack(msg)
-      print "."
+      if true # client side filtering would go here
+        process(msg)
+        print "."
+        @processed += 1
+      end
     end
   end
 
@@ -28,6 +31,10 @@ class Collector # worker
     record = @db[msg[:id]]       # find
     sleep DELAY # rand(0)        # work TODO: add hang or exception
     @db[msg[:id]] = record.touch # save
+  end
+
+  def run_status(*_)
+    puts "c#{@my_n}: #{@processed}"
   end
 end
 
@@ -37,10 +44,12 @@ class Coordinator # producer
   end
 
   def schedule
-    puts "", "00:#{"%02d" % (Time.now - START)} WORK q=#{@q.size} #{@q.empty? ? "" : "WARNING non empty queue"}"
+    puts ""
+    old_sz = @q.size
+    print "00:#{"%02d" % (Time.now - START)} WORK "
     @db.all.each do |rec|
       t = rec.status
-      msg = {:id => rec.id}
+      msg = {:id => rec.id, :queued => Time.now}
       if t
         # this is the core of put_unless_exists
         if @q.find(msg) # *** special code of interest
@@ -51,7 +60,10 @@ class Coordinator # producer
         print t
       end
     end
+    puts " q: #{old_sz}=>#{@q.size}"
+    print "           "
   end
+
   def block_until_done
     while !@q.empty?
       puts "", "00:#{"%02d" % (Time.now - START)} WAIT q=#{@q.size}"
@@ -70,7 +82,7 @@ class Coordinator # producer
   end
 end
 
-db = Db.new
+db = Db.new("pg")
 RECORD_COUNT.times { |n|
   id = "vm#{"%02d" % n}"
   db[id] = Record.new(id, n % 3 == 0)
@@ -79,11 +91,15 @@ RECORD_COUNT.times { |n|
 q = Q.new
 coordinator = Coordinator.new(db, q)
 collectors = COLLECTOR_COUNT.times.map do |n|
-  Thread.new(n+1) do |my_n|
-    Collector.new(my_n, db, q).run
+  c = Collector.new(n, db, q)
+  Thread.new(n+1) do
+    c.run
   end
+  c
 end
 
 coordinator.run.block_until_done
-db.run_status(START)
+puts
 q.run_status
+collectors.map(&:run_status)
+db.run_status(START)

@@ -4,26 +4,27 @@ require 'thread'
 # feel like the major flaw here is we do not dup the records
 # In the meantime, please don't change inline but assign back into the db
 class Db
-  def initialize
+  def initialize(name)
     @mutex = Mutex.new
     @data = {}
     @writes = 0
     @reads = 0
+    @name = name
   end
-  def []=(n, v) ; @mutex.synchronize { @reads += 1 ; @data[n] = v } ; end
-  def [](n)     ; @mutex.synchronize { @writes += 1 ; @data[n] } ; end
+  def []=(n, v) ; @mutex.synchronize { @writes += 1 ; @data[n] = v } ; end
+  def [](n)     ; @mutex.synchronize { @reads += 1 ; @data[n] } ; end
   def all
     @mutex.synchronize { @data.values } #.map(&:dup)
   end
 
   def run_status(start)
-    puts "total writes: #{@writes}"
-    puts "total reads:  #{@reads}"
-    if @data.first.respond_to?(:run_status)
+    puts "#{@name} total writes: #{@writes}"
+    puts "#{@name} total reads:  #{@reads}"
+    if @data.first.last.respond_to?(:run_status)
+      puts "#{@name} total refreshes: #{all.map { |rec| rec.table.size }.inject(&:+)}"
       all.each do |rec|
         puts rec.run_status(start)
       end
-      puts "total refreshes: #{all.map { |rec| rec.table.size }.inject(&:+)}"
     end
   end
 end
@@ -46,14 +47,13 @@ class Record
   end
 
   def touch(dt = Time.now)
-    delta = @last_updated ? dt - @last_updated : nil
-    @table << [dt, delta]
+    @table << dt
     @last_updated = dt
     self
   end
 
   def run_status(start)
-    "#{id}: #{@table.map { |t| "%02d" % (t.first - start) }.join(" ")}"
+    "#{id}: #{@table.map { |t| "%02d" % (t - start) }.join(" ")}"
   end
 end
 
@@ -113,40 +113,7 @@ class Q
     @que.empty?
   end
 
-  def run_status
-    puts "processed #{@count} messages"
-  end
-end
-
-class Red
-  def initialize
-    @data      = {}
-    @padding   = 3 # amount of time to pad on record
-    @attempts  = 0
-    @processed = 0
-  end
-
-  # does this pass the filter
-  def pass?(id, dt)
-    previous_run = @data[id]
-    @attempts += 1
-    if previous_run.nil? || previous_run < dt
-      @data[id] = Time.now + @padding
-      true
-    else
-      false
-    end
-  end
-
-  # mark this one as having been processed / reset it
-  def mark(id)
-    now = Time.now
-    @data[id] = now + @padding - 1
-    @processed += 1
-  end
-
-  def run_status
-    puts "filter attempts #{@attempts}"
-    puts "filter passed #{@processed}"
+  def run_status(*_)
+    puts "q processed #{@count} messages"
   end
 end

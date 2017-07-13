@@ -1,28 +1,37 @@
 client filter on date of last processed
 
-00:00 WORK q=0 
-NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN......................................
-00:02 WORK q=60 WARNING non empty queue
-NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN......................................
-00:04 WORK q=84 WARNING non empty queue
-AAAAAANNNNNNNNNNNNNNNNNNNNNNNN..............................
-00:06 WORK q=0 
-AAAAAAAAAAAAAA..............
-00:08 WORK q=0 
-AAAAAAAAAAAA............
-00:10 WORK q=0 
-AAAAAAAAAAAAAAAAAAAAAA......................
-00:12 WORK q=0 
-+++++++++++++++++++++++++AAAAAAAAAAAA.....................................
-00:14 WORK q=0 
-AAAAAAAAAAAAA+A++A++A++A++A++++++++++++++++++......................................
-00:16 WORK q=5 WARNING non empty queue
-AA+++++++++++++++++++A++A.........................
-00:18 WORK q=0 
-AAAAAAAAAAAAAAAAAAAAAAAAAAA...........................
-00:20 WORK q=0 
-AAAAA.....
+00:00 WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 0=>100
+           ......................................
+00:02 WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 60=>122
+           ......................................
+00:04 WORK AAAAAANNNNNNNNNNNNNNNNNNNNNNNN q: 84=>114
+           ..............................
+00:06 WORK AAAAAAAAAAAAA q: 0=>12
+           .............
+00:08 WORK AAAAAAAAAAAAA q: 0=>13
+           .............
+00:10 WORK AAAAAAAAAAAAAAAAAAAAA q: 0=>21
+           .....................
+00:12 WORK +++++++++++++++++++++++++AAAAAAAAAAAAA q: 0=>38
+           ......................................
+00:14 WORK AAAAAAAAAAAAA+A++A++A++A++A++++++++++++++++ q: 0=>43
+           ......................................
+00:16 WORK A+++++++++++++++++++A++A q: 3=>27
+           ........................
+00:18 WORK AAAAAAAAAAAAAAAAAAAAAAAAAAAA q: 0=>27
+           ............................
+00:20 WORK AAAA q: 0=>3
+           ....
 00:22 DONE q=0
+
+q processed 376 messages
+c0: 143/205
+c1: 142/171
+redis total writes: 570
+redis total reads:  376
+pg total writes: 385
+pg total reads:  285
+pg total refreshes: 285
 vm00: 00 05 10 14 18
 vm01: 00 12
 vm02: 00 12
@@ -79,8 +88,8 @@ vm52: 02 15
 vm53: 02 15
 vm54: 02 06 11 16 20
 vm55: 02 15
-vm56: 02 15
-vm57: 02 06 11 16 20
+vm56: 03 15
+vm57: 03 08 13 18
 vm58: 03 15
 vm59: 03 15
 vm60: 03 08 13 18
@@ -89,7 +98,7 @@ vm62: 03 15
 vm63: 03 08 13 18
 vm64: 03 15
 vm65: 03 15
-vm66: 03 08 13 18
+vm66: 03 08 13 19
 vm67: 03 15
 vm68: 03 16
 vm69: 03 08 13 19
@@ -115,7 +124,7 @@ vm88: 04 16
 vm89: 04 16
 vm90: 04 08 13 19
 vm91: 04 16
-vm92: 04 17
+vm92: 04 16
 vm93: 04 08 13 19
 vm94: 04 17
 vm95: 04 17
@@ -123,7 +132,3 @@ vm96: 05 11 17
 vm97: 05 17
 vm98: 05 17
 vm99: 05 11 17
-total refreshes: 286
-processed 379 messages
-filter attempts 379
-filter passed 286

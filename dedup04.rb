@@ -10,10 +10,12 @@ RECORD_COUNT    = 100 # number of records in database
 INTERVAL        = 2   # frequency of determining if there needs to be work
 DURATION        = 20  # length of test
 DELAY           = 0.1 # time each work item takes
+PADDING         = 3 # assume task runs every 3 (or takes 3)
 
 class Collector # worker
   def initialize(my_n, db, q, filter)
     @my_n, @q, @db, @filter = my_n, q, db, filter
+    @attempts = @processed = 0
   end
 
   def run
@@ -21,20 +23,35 @@ class Collector # worker
       filter(msg) do # *** special code of interest
         process(msg)
         print "."
+        @processed += 1
       end
     end
   end
 
   def filter(msg)
-    return unless @filter.pass?(msg[:id], msg[:queued])
-    yield
-    @filter.mark(msg[:id])
+    id = msg[:id]
+    dt = msg[:queued]
+    previous_run = @filter[id]
+    @attempts += 1
+    if previous_run.nil? || previous_run < dt
+      new_dt = Time.now + PADDING
+      @filter[id] = new_dt
+      yield
+      new_dt = Time.now + PADDING - 1 # -1? just now?
+      @filter[id] = new_dt
+    else
+      false
+    end
   end
 
   def process(msg)
     record = @db[msg[:id]]       # find
     sleep DELAY # rand(0)        # work TODO: add hang or exception
     @db[msg[:id]] = record.touch # save
+  end
+
+  def run_status(*_)
+    puts "c#{@my_n}: #{@processed}/#{@attempts}"
   end
 end
 
@@ -45,7 +62,8 @@ class Coordinator # producer
 
   def schedule
     puts ""
-    print "00:#{"%02d" % (Time.now - START)} WORK q=#{@q.size} #{@q.empty? ? "" : "! "}"
+    old_sz = @q.size
+    print "00:#{"%02d" % (Time.now - START)} WORK "
     @db.all.each do |rec|
       t = rec.status
       msg = {:id => rec.id, :queued => Time.now}
@@ -56,9 +74,10 @@ class Coordinator # producer
         print t
       end
     end
-    puts
-    print "      "
+    puts " q: #{old_sz}=>#{@q.size}"
+    print "           "
   end
+
   def block_until_done
     while !@q.empty?
       puts "", "00:#{"%02d" % (Time.now - START)} WAIT q=#{@q.size}"
@@ -77,23 +96,26 @@ class Coordinator # producer
   end
 end
 
-db = Db.new
+db = Db.new("pg")
 RECORD_COUNT.times { |n|
   id = "vm#{"%02d" % n}"
   db[id] = Record.new(id, n % 3 == 0)
 }
 
 q = Q.new
-filter = Red.new
+filter = Db.new("redis")
 coordinator = Coordinator.new(db, q)
 collectors = COLLECTOR_COUNT.times.map do |n|
-  Thread.new(n+1) do |my_n|
-    Collector.new(my_n, db, q, filter).run
+  c = Collector.new(n, db, q, filter)
+  Thread.new(n+1) do
+    c.run
   end
+  c
 end
 
 coordinator.run.block_until_done
 puts
-db.run_status(START)
 q.run_status
-filter.run_status
+collectors.map(&:run_status)
+filter.run_status(START)
+db.run_status(START)
