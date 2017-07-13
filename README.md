@@ -24,3 +24,21 @@ So... How do you not do the same work twice?
 Sure, you could increase the number of workers, or you could change the way you determine what work needs to be done.
 
 Our goal here is to accept that duplicates may be requested, and instead reduce the amount of work done
+
+dedup examples:
+
+1. calculate work - do work
+2. calculate work - spawn work (wait till they are done)
+3. put unless exists
+4. drop duplicates on floor (based upon 2nd db with date stamps)
+---
+5. "shopping list" a queue consumers (for outside interface), more db like queue for work.
+6. queue params separate from actual (queue need refresh, vms to refresh in a separate set)
+
+
+problem set:
+currently handle occasonal duplicate records (so capture / delay / broadcast not viable)
+what about many many duplicates
+what about running 2 producers ("oops")
+what about work that takes a long time
+what about sending deletes, and retries?
