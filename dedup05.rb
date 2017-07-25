@@ -20,7 +20,7 @@ class Collector # worker
 
   def run
     while (msg = @q.pop(false) rescue nil) do
-      filter(msg) do # *** special code of interest
+      if true
         process(msg)
         print "."
         @processed += 1
@@ -58,8 +58,22 @@ class Collector # worker
 end
 
 class Coordinator # producer
-  def initialize(db, q)
-    @db, @q = db, q
+  def initialize(db, q, filter)
+    @db, @q, @filter = db, q, filter
+  end
+
+  # server side filter
+  def filter(msg)
+    id = msg[:id]
+    dt = msg[:queued]
+    previous_run = @filter[id]
+    if previous_run.nil? || previous_run < dt
+      new_dt = Time.now + PADDING
+      @filter[id] = new_dt # new value for previous_run
+      true
+    else
+      false
+    end
   end
 
   def schedule
@@ -70,8 +84,10 @@ class Coordinator # producer
       t = rec.status
       msg = {:id => rec.id, :queued => Time.now}
       if t
-        if true # producer filtering would go here
+        if filter(msg)
           @q.push(msg)
+        else
+          t = "X"
         end
         print t
       end
@@ -107,7 +123,7 @@ RECORD_COUNT.times { |n|
 
 q = Q.new
 filter = Db.new("redis")
-coordinator = Coordinator.new(db, q)
+coordinator = Coordinator.new(db, q, filter)
 collectors = COLLECTOR_COUNT.times.map do |n|
   c = Collector.new(n, db, q, filter)
   Thread.new(n+1) do

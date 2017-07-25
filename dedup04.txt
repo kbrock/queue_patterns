@@ -5,33 +5,33 @@ client filter on date of last processed
 00:02 WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 60=>122
            ......................................
 00:04 WORK AAAAAANNNNNNNNNNNNNNNNNNNNNNNN q: 84=>114
-           ..............................
-00:06 WORK AAAAAAAAAAAAA q: 0=>12
-           .............
-00:08 WORK AAAAAAAAAAAAA q: 0=>13
-           .............
-00:10 WORK AAAAAAAAAAAAAAAAAAAAA q: 0=>21
-           .....................
-00:12 WORK +++++++++++++++++++++++++AAAAAAAAAAAAA q: 0=>38
-           ......................................
+           .......................xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx......xxxxxxxxxxxxxxxxxxxxxxxx.
+00:06 WORK AAAAAAAAAAAAAA q: 0=>13
+           ..............
+00:08 WORK AAAAAAAAAAAA q: 0=>10
+           ............
+00:10 WORK AAAAAAAAAAAAAAAAAAAAAA q: 0=>20
+           ......................
+00:12 WORK +++++++++++++++++++++++++AAAAAAAAAAAA q: 0=>35
+           .....................................
 00:14 WORK AAAAAAAAAAAAA+A++A++A++A++A++++++++++++++++ q: 0=>43
            ......................................
-00:16 WORK A+++++++++++++++++++A++A q: 3=>27
-           ........................
-00:18 WORK AAAAAAAAAAAAAAAAAAAAAAAAAAAA q: 0=>27
-           ............................
-00:20 WORK AAAA q: 0=>3
-           ....
+00:16 WORK AA+++++++++++++++++++A++A q: 3=>28
+           ......xxxxx...................
+00:18 WORK AAAAAAAAAAAAAAAAAAAAAAAAAAA q: 0=>27
+           ...........................
+00:20 WORK AAAAA q: 0=>5
+           .....
 00:22 DONE q=0
 
-q processed 376 messages
-c0: 143/205
-c1: 142/171
-redis total writes: 570
-redis total reads:  376
-pg total writes: 385
-pg total reads:  285
-pg total refreshes: 285
+q processed 377 messages
+c0: 143/172
+c1: 143/205
+redis total writes: 572
+redis total reads:  377
+pg total writes: 386
+pg total reads:  286
+pg total refreshes: 286
 vm00: 00 05 10 14 18
 vm01: 00 12
 vm02: 00 12
@@ -88,8 +88,8 @@ vm52: 02 15
 vm53: 02 15
 vm54: 02 06 11 16 20
 vm55: 02 15
-vm56: 03 15
-vm57: 03 08 13 18
+vm56: 02 15
+vm57: 02 06 11 16 20
 vm58: 03 15
 vm59: 03 15
 vm60: 03 08 13 18
@@ -98,7 +98,7 @@ vm62: 03 15
 vm63: 03 08 13 18
 vm64: 03 15
 vm65: 03 15
-vm66: 03 08 13 19
+vm66: 03 08 13 18
 vm67: 03 15
 vm68: 03 16
 vm69: 03 08 13 19
@@ -124,7 +124,7 @@ vm88: 04 16
 vm89: 04 16
 vm90: 04 08 13 19
 vm91: 04 16
-vm92: 04 16
+vm92: 04 17
 vm93: 04 08 13 19
 vm94: 04 17
 vm95: 04 17

@@ -1,0 +1,134 @@
+client filter on date of last processed
+
+00:00 WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 0=>100
+           ......................................
+00:02 WORK XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX q: 60=>60
+           ......................................
+00:04 WORK AAAAAANNNNNNNNNNNNNNNNNNNNNNNN q: 22=>52
+           ........................................
+00:06 WORK AAAAAAAAAAAAAA q: 12=>26
+           ............................
+00:08 WORK AAAAAA q: 0=>5
+           ......
+00:10 WORK AAAAAAAAAAAAAAAAAAAA q: 0=>19
+           ....................
+00:12 WORK ++++++++++++++++++++++++A+AAAAAAAAAAAAA q: 0=>38
+           ......................................
+00:14 WORK AAAAAAAAAAAA+++++++++++++++++++++++++XAAAAAA q: 0=>43
+           ......................................
+00:16 WORK ++X++X++X+XXXAA q: 4=>13
+           ...............
+00:18 WORK AAAAAAAAAAAAAAAAAAAAAAAAAA+++++++++ q: 0=>33
+           ...................................
+00:20 WORK AAAAAAAA q: 0=>7
+           ........
+00:22 DONE q=0
+
+q processed 304 messages
+c0: 153/0
+c1: 151/0
+redis total writes: 304
+redis total reads:  373
+pg total writes: 404
+pg total reads:  304
+pg total refreshes: 304
+vm00: 00 05 10 14 18
+vm01: 00 12
+vm02: 00 12
+vm03: 00 05 10 14 18
+vm04: 00 12
+vm05: 00 12
+vm06: 00 05 10 14 18
+vm07: 00 12
+vm08: 00 12
+vm09: 00 05 10 14 18
+vm10: 00 12
+vm11: 00 12
+vm12: 00 05 10 14 18
+vm13: 00 12
+vm14: 00 12
+vm15: 00 05 10 14 18
+vm16: 00 12
+vm17: 00 12
+vm18: 01 06 10 14 18
+vm19: 01 12
+vm20: 01 12
+vm21: 01 06 10 14 18
+vm22: 01 12
+vm23: 01 12
+vm24: 01 06 10 14 18
+vm25: 01 12
+vm26: 01 12
+vm27: 01 06 10 14 18
+vm28: 01 13
+vm29: 01 13
+vm30: 01 06 10 14 18
+vm31: 01 13
+vm32: 01 13
+vm33: 01 06 10 14 18
+vm34: 01 13
+vm35: 01 13
+vm36: 01 07 13 18
+vm37: 01 13
+vm38: 02 14
+vm39: 02 07 13 18
+vm40: 02 14
+vm41: 02 14
+vm42: 02 07 13 18
+vm43: 02 14
+vm44: 02 14
+vm45: 02 07 13 18
+vm46: 02 15
+vm47: 02 15
+vm48: 02 07 13 18
+vm49: 02 15
+vm50: 02 15
+vm51: 02 07 13 18
+vm52: 02 15
+vm53: 02 15
+vm54: 02 07 13 19
+vm55: 02 15
+vm56: 02 15
+vm57: 02 07 13 19
+vm58: 03 15
+vm59: 03 15
+vm60: 03 08 13 19
+vm61: 03 15
+vm62: 03 15
+vm63: 03 08 13 19
+vm64: 03 15
+vm65: 03 15
+vm66: 03 08 13 19
+vm67: 03 15
+vm68: 03 15
+vm69: 03 08 13 19
+vm70: 03 15
+vm71: 03 15
+vm72: 03 08 13 19
+vm73: 03 15
+vm74: 03 15
+vm75: 03 08 14 19
+vm76: 04 05 16
+vm77: 04 05 16
+vm78: 04 05 10 16 20
+vm79: 04 05 16
+vm80: 04 05 16
+vm81: 04 05 10 16 20
+vm82: 04 05 16
+vm83: 04 05 16
+vm84: 04 05 10 16 20
+vm85: 04 05 16
+vm86: 04 06 19
+vm87: 04 06 10 16 20
+vm88: 04 06 19
+vm89: 04 06 19
+vm90: 04 06 10 16 20
+vm91: 04 06 19
+vm92: 04 06 19
+vm93: 04 06 10 16 20
+vm94: 04 06 19
+vm95: 04 06 19
+vm96: 05 06 11 16 20
+vm97: 05 06 19
+vm98: 05 06 19
+vm99: 05 06 11 16 20
