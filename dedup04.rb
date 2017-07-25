@@ -99,11 +99,7 @@ class Coordinator # producer
   end
 end
 
-db = Db.new("pg")
-RECORD_COUNT.times { |n|
-  id = "vm#{"%02d" % n}"
-  db[id] = Record.new(id, n % 3 == 0)
-}
+db = Db.new("pg").junk_data(RECORD_COUNT)
 
 q = Q.new
 filter = Db.new("redis")

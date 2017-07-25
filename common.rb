@@ -11,6 +11,7 @@ class Db
     @reads = 0
     @name = name
   end
+
   def []=(n, v) ; @mutex.synchronize { @writes += 1 ; @data[n] = v } ; end
   def [](n)     ; @mutex.synchronize { @reads += 1 ; @data[n] } ; end
   def all
@@ -26,6 +27,15 @@ class Db
         puts rec.run_status(start)
       end
     end
+  end
+
+  # sorry, but this was common across all and used while testing in irb
+  def junk_data(record_count = 100)
+    record_count.times { |n|
+      id = n
+      self[id] = Record.new(id, n % 3 == 0)
+    }
+    self
   end
 end
 
@@ -53,7 +63,7 @@ class Record
   end
 
   def run_status(start)
-    "#{id}: #{@table.map { |t| "%02d" % (t - start) }.join(" ")}"
+    "vm#{"%02d" % id}: #{@table.map { |t| "%02d" % (t - start) }.join(" ")}"
   end
 end
 
