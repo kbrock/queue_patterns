@@ -2,7 +2,7 @@
 require 'thread'
 require_relative 'common'
 
-puts "client filter on date of last processed"
+puts "server filter on date of last processed"
 
 START = Time.now
 COLLECTOR_COUNT = 2   # number of collectors
