@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# override=true
+
+for i in dedup*.rb ; do
+  out="${i%.rb}.txt"
+  if [ -n "${override}" -o ${i} -nt ${out} ] ; then
+    echo "${i} > ${out}"
+    ruby ${i} | tee ${out}
+  fi
+done

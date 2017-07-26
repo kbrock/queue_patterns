@@ -18,6 +18,17 @@ class Db
     @mutex.synchronize { @data.values } #.map(&:dup)
   end
 
+  def size
+    @mutex.synchronize { @data.size }
+  end
+
+  # this implementation assumes:
+  # records not updated inline (not major if they are)
+  # no read and write contention on same records
+  def select(&block)
+     @mutex.synchronize { @data.values }.select(&block).tap { |recs| @mutex.synchronize { @reads += recs.size } }
+  end
+
   def run_status(start)
     puts "#{@name} total writes: #{@writes}"
     puts "#{@name} total reads:  #{@reads}"
