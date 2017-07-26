@@ -10,6 +10,7 @@ RECORD_COUNT    = 100 # number of records in database
 INTERVAL        = 2   # frequency of determining if there needs to be work
 DURATION        = 20  # length of test
 DELAY           = 0.1 # time each work item takes
+SPACER          = "             "
 PADDING         = 3 # assume task runs every 3 (or takes 3)
 
 class Collector # worker
@@ -23,7 +24,7 @@ class Collector # worker
   # basically Collector#schedule
   def process_msg
     puts
-    print "00:#{"%02d" % (Time.now - START)} WORK "
+    print "00:#{"%02d" % (Time.now - START)} #{@my_n} WORK "
     @db.select(&@filter).each do |rec|
       t = rec.status
       if t
@@ -45,15 +46,17 @@ class Collector # worker
 
       sleep_time = INTERVAL - (Time.now - start)
       if sleep_time < 0
-        puts
-        puts "00:#{"%02d" % (Time.now - START)} OVER w=#{@my_n} [#{-sleep_time}]"
-        print "           "
+        if sleep_time < -0.01
+          puts
+          print "00:#{"%02d" % (Time.now - START)} #{@my_n} OVER BY #{"%.3f" % -sleep_time}"
+        end
+        print SPACER
       else
         sleep(sleep_time)
       end
     end
-    puts "", "00:#{"%02d" % (Time.now - START)} DONE w=#{@my_n}"
-    print "           "
+    puts "", "00:#{"%02d" % (Time.now - START)} #{@my_n} DONE"
+    print SPACER
     self
   end
 
@@ -68,28 +71,19 @@ class Collector # worker
 end
 
 class Coordinator # producer
-  def initialize(db, q, filter)
-    @db, @q, @filter = db, q, filter
+  def initialize(db, q)
+    @my_n, @db, @q = "C", db, q
   end
 
   # server side filter
-  def filter(msg)
-    id = msg[:id]
-    dt = msg[:queued]
-    previous_run = @filter[id]
-    if previous_run.nil? || previous_run < dt
-      new_dt = Time.now + PADDING
-      @filter[id] = new_dt # new value for previous_run
-      true
-    else
-      false
-    end
+  def filter(_)
+    true
   end
 
   def schedule
     puts
     old_sz = @q.size
-    print "00:#{"%02d" % (Time.now - START)} WORK "
+    print "00:#{"%02d" % (Time.now - START)} #{@my_n} WORK "
     @db.all.each do |rec|
       t = rec.status
       msg = {:id => rec.id, :queued => Time.now}
@@ -103,13 +97,13 @@ class Coordinator # producer
       end
     end
     puts " q: #{old_sz}=>#{@q.size}"
-    print "           "
+    print SPACER
   end
 
   def block_until_done
     while !@q.empty?
-      puts "", "00:#{"%02d" % (Time.now - START)} WAIT q=#{@q.size}"
-      print "           "
+      puts "", "00:#{"%02d" % (Time.now - START)} #{@my_n} WAIT q=#{@q.size}"
+      print SPACER
       sleep(1)
     end
   end

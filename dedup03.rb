@@ -10,6 +10,7 @@ RECORD_COUNT    = 100 # number of records in database
 INTERVAL        = 2   # frequency of determining if there needs to be work
 DURATION        = 20  # length of test
 DELAY           = 0.1 # time each work item takes
+SPACER          = "             "
 
 class Collector # worker
   def initialize(my_n, db, q)
@@ -47,7 +48,7 @@ end
 
 class Coordinator # producer
   def initialize(db, q)
-    @db, @q = db, q
+    @my_n, @db, @q = "C", db, q
   end
 
   # server side filter
@@ -59,7 +60,7 @@ class Coordinator # producer
   def schedule
     puts
     old_sz = @q.size
-    print "00:#{"%02d" % (Time.now - START)} WORK "
+    print "00:#{"%02d" % (Time.now - START)} #{@my_n} WORK "
     @db.all.each do |rec|
       t = rec.status
       msg = {:id => rec.id, :queued => Time.now}
@@ -73,13 +74,13 @@ class Coordinator # producer
       end
     end
     puts " q: #{old_sz}=>#{@q.size}"
-    print "           "
+    print SPACER
   end
 
   def block_until_done
     while !@q.empty?
-      puts "", "00:#{"%02d" % (Time.now - START)} WAIT q=#{@q.size}"
-      print "           "
+      puts "", "00:#{"%02d" % (Time.now - START)} #{@my_n} WAIT q=#{@q.size}"
+      print SPACER
       sleep(1)
     end
   end
@@ -91,14 +92,16 @@ class Coordinator # producer
       schedule
       sleep_time = INTERVAL - (Time.now - start)
       if sleep_time < 0
-        puts
-        print "00:#{"%02d" % (Time.now - START)} OVER q=#{@q.size}"
-        # print "           "
+        if sleep_time < -0.01
+          puts
+          print "00:#{"%02d" % (Time.now - START)} #{@my_n} OVER BY #{"%.3f" % -sleep_time} q=#{@q.size}"
+        end
+        # print SPACER
       else
         sleep(sleep_time)
       end
     end until (start > stop)
-    puts "", "00:#{"%02d" % (Time.now - START)} DONE q=#{@q.size}"
+    puts "", "00:#{"%02d" % (Time.now - START)} #{@my_n} DONE q=#{@q.size}"
     self
   end
 end
