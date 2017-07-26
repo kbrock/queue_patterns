@@ -32,20 +32,11 @@ class Coordinator < WorkerBase
     @c = c
   end
 
-  # server side filter
-  def filter(_)
-    true
-  end
-
   def schedule
     @db.all.each do |rec|
       msg = {:id => rec.id, :queued => Time.now}
       if (t = rec.status)
-        if filter(msg)
-          @q.push(msg)
-        else
-          t = "X"
-        end
+        @q.push(msg)
         print t
       end
     end
