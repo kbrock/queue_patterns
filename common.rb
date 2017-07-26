@@ -1,5 +1,8 @@
 require 'thread'
 
+Thread::abort_on_exception = true
+SPACER          = "             "
+
 # represents an AR database
 # feel like the major flaw here is we do not dup the records
 # In the meantime, please don't change inline but assign back into the db
@@ -41,7 +44,7 @@ class Db
   end
 
   # sorry, but this was common across all and used while testing in irb
-  def junk_data(record_count = 100)
+  def junk_data(record_count)
     record_count.times { |n|
       id = n
       self[id] = Record.new(id, n % 3 == 0)
@@ -136,5 +139,70 @@ class Q
 
   def run_status(*_)
     puts "q processed #{@count} messages"
+  end
+end
+
+class WorkerBase
+  attr_accessor :my_n, :processed, :skipped, :q, :db
+  def initialize(my_n, db, q)
+    @my_n, @q, @db = my_n, q, db
+    @processed = @skipped = 0
+  end
+
+  # consumer
+  def process_queue(non_blocking = false)
+    while (msg = @q.pop(non_blocking) rescue nil) do
+      if yield(msg)
+        print "."
+        @processed += 1
+      else
+        @skipped += 1
+        print "x"
+      end
+    end
+  end
+
+  def block_until_done
+    while !@q.empty?
+      print "\n00:#{"%02d" % (Time.now - START)} #{@my_n} WAIT q=#{@q.size}\n#{SPACER}"
+      sleep(1)
+    end
+  end
+
+  # timer / scheduler (usually for the producer)
+  def run_loop(duration, interval)
+    stop = Time.now + duration
+    begin
+      start = Time.now
+      old_sz = @q.size
+      print "\n00:#{"%02d" % (Time.now - START)} #{@my_n} WORK "
+      yield
+      new_sz = @q.size
+      if new_sz != old_sz
+        print " q: #{old_sz}=>#{new_sz}\n#{SPACER}"
+      else
+        print "\n#{SPACER}"
+      end
+      sleep_time = interval - (Time.now - start)
+      if sleep_time < 0
+        if sleep_time < -0.01
+          print "\n00:#{"%02d" % (Time.now - START)} #{@my_n} OVER BY #{"%.3f" % -sleep_time} q=#{@q.size}"
+        end
+        # print SPACER
+      else
+        sleep(sleep_time)
+      end
+    end until (start > stop)
+    print "\n00:#{"%02d" % (Time.now - START)} #{@my_n} DONE q=#{@q.size}\n#{SPACER}"
+    self
+  end
+
+  # summary details
+  def run_status(*_)
+    if @skipped != 0
+      puts "c#{@my_n}: #{@processed}/#{@processed+@skipped}"
+    else
+      puts "c#{@my_n}: #{@processed}"
+    end
   end
 end

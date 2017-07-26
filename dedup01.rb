@@ -11,43 +11,25 @@ INTERVAL        = 2   # frequency of determining if there needs to be work
 DURATION        = 20  # length of test
 DELAY           = 0.1 # time each work item takes
 
-class Collector # worker
-  def initialize(my_n, db, q)
-    @my_n, @q, @db = my_n, q, db
-    @processed = 0
-  end
-
+class Collector < WorkerBase
   def run
-    while (msg = @q.pop(true) rescue nil) do # *** special code of interest
-      if filter(msg)
-        process(msg)
-        print "."
-        @processed += 1
-      else
-        print "x"
-      end
+    process_queue(true) do |msg| # NOTE: this is a true (non blocking)
+      process(msg)
     end
   end
 
-  # client side filter
-  def filter(_)
-    true
-  end
-
   def process(msg)
-    record = @db[msg[:id]]       # find
-    sleep DELAY # rand(0)        # work TODO: add hang or exception
-    @db[msg[:id]] = record.touch # save
-  end
-
-  def run_status(*_)
-    puts "c#{@my_n}: #{@processed}"
+    record = @db[msg[:id]]
+    sleep DELAY
+    @db[msg[:id]] = record.touch
+    true
   end
 end
 
-class Coordinator # producer
-  def initialize(db, q, c)
-    @db, @q, @c= db, q, c
+class Coordinator < WorkerBase
+  def initialize(n, db, f, c)
+    super(n, db, f)
+    @c = c
   end
 
   # server side filter
@@ -56,13 +38,9 @@ class Coordinator # producer
   end
 
   def schedule
-    puts
-    old_sz = @q.size
-    print "00:#{"%02d" % (Time.now - START)} WORK "
     @db.all.each do |rec|
-      t = rec.status
       msg = {:id => rec.id, :queued => Time.now}
-      if t
+      if (t = rec.status)
         if filter(msg)
           @q.push(msg)
         else
@@ -71,44 +49,25 @@ class Coordinator # producer
         print t
       end
     end
-    puts " q: #{old_sz}=>#{@q.size}"
-    print "           "
-  end
-
-  def block_until_done
-    while !@q.empty?
-      puts "", "00:#{"%02d" % (Time.now - START)} WAIT q=#{@q.size}"
-      print "           "
-      sleep(1)
-    end
   end
 
   def run
-    stop = Time.now + DURATION
-    begin
-      start = Time.now
+    run_loop(DURATION, INTERVAL) do
+      old_sz = @q.size
       schedule
-      @c.run # *** special code of interest
-      sleep_time = INTERVAL - (Time.now - start)
-      if sleep_time < 0
-        puts
-        print "00:#{"%02d" % (Time.now - START)} OVER q=#{@q.size}"
-        # print "           "
-      else
-        sleep(sleep_time)
-      end
-    end until (start > stop)
-    puts "", "00:#{"%02d" % (Time.now - START)} DONE q=#{@q.size}"
-    self
+      print " q: #{old_sz}=>#{@q.size}\n#{SPACER}"
+      @c.run
+    end
   end
 end
 
 db = Db.new("pg").junk_data(RECORD_COUNT)
 
 q = Q.new
-c = Collector.new(1, db, q) # *** special code of interest
-collectors = [c]
-coordinator = Coordinator.new(db, q, c)
+collectors = 1.times.map do |n|
+  Collector.new(n, db, q)
+end
+coordinator = Coordinator.new("C", db, q, collectors.first)
 
 coordinator.run.block_until_done
 puts
