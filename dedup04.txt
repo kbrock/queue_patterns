@@ -3,31 +3,31 @@ client filter on date of last processed
 00:00 WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 0=>100
            ......................................
 00:02 WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 60=>122
-           ......................................
-00:04 WORK AAAAAANNNNNNNNNNNNNNNNNNNNNNNN q: 84=>114
-           .......................xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx......xxxxxxxxxxxxxxxxxxxxxxxx.
-00:06 WORK AAAAAAAAAAAAAA q: 0=>13
+           ........................................
+00:04 WORK AAAAAANNNNNNNNNNNNNNNNNNNNNN q: 82=>110
+           .....................xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx......xxxxxxxxxxxxxxxxxxxxxx.
+00:06 WORK AAAAAAAAAAAAAA q: 0=>12
            ..............
-00:08 WORK AAAAAAAAAAAA q: 0=>10
+00:08 WORK AAAAAAAAAAAA q: 0=>11
            ............
-00:10 WORK AAAAAAAAAAAAAAAAAAAAAA q: 0=>20
+00:10 WORK AAAAAAAAAAAAAAAAAAAAAA q: 0=>21
            ......................
-00:12 WORK +++++++++++++++++++++++++AAAAAAAAAAAA q: 0=>35
+00:12 WORK +++++++++++++++++++++++++AAAAAAAAAAAA q: 0=>36
            .....................................
-00:14 WORK AAAAAAAAAAAAA+A++A++A++A++A++++++++++++++++ q: 0=>43
+00:14 WORK AAAAAAAAAAAAA+A++A++A++A++A++++++++++++++++++ q: 0=>43
            ......................................
-00:16 WORK AA+++++++++++++++++++A++A q: 3=>28
-           ......xxxxx...................
-00:18 WORK AAAAAAAAAAAAAAAAAAAAAAAAAAA q: 0=>27
+00:16 WORK AA+++++++++++++++++++A++A q: 5=>30
+           ........xxxxxxx.................
+00:18 WORK AAAAAAAAAAAAAAAAAAAAAAAAAAA q: 0=>25
            ...........................
-00:20 WORK AAAAA q: 0=>5
+00:20 WORK AAAAA q: 0=>3
            .....
 00:22 DONE q=0
 
 q processed 377 messages
-c0: 143/172
-c1: 143/205
-redis total writes: 572
+c0: 142/233
+c1: 144/144
+redis total writes: 286
 redis total reads:  377
 pg total writes: 386
 pg total reads:  286
@@ -46,19 +46,19 @@ vm10: 00 12
 vm11: 00 12
 vm12: 00 05 10 14 18
 vm13: 00 12
-vm14: 00 12
-vm15: 00 05 10 14 18
-vm16: 00 12
-vm17: 00 12
+vm14: 01 12
+vm15: 01 05 10 14 18
+vm16: 01 12
+vm17: 01 12
 vm18: 01 06 10 14 18
 vm19: 01 12
 vm20: 01 12
 vm21: 01 06 10 14 18
-vm22: 01 12
-vm23: 01 12
+vm22: 01 13
+vm23: 01 13
 vm24: 01 06 10 14 18
-vm25: 01 12
-vm26: 01 12
+vm25: 01 13
+vm26: 01 13
 vm27: 01 06 10 14 18
 vm28: 01 13
 vm29: 01 13
@@ -66,48 +66,48 @@ vm30: 01 06 10 14 18
 vm31: 01 13
 vm32: 01 13
 vm33: 01 06 10 14 18
-vm34: 01 13
-vm35: 01 13
-vm36: 01 06 10 14 18
-vm37: 01 13
+vm34: 02 13
+vm35: 02 13
+vm36: 02 06 10 14 18
+vm37: 02 13
 vm38: 02 14
-vm39: 02 06 10 14 18
-vm40: 02 14
-vm41: 02 14
-vm42: 02 06 10 14 18
+vm39: 02 06 10 15 18
+vm40: 02 15
+vm41: 02 15
+vm42: 02 06 11 15 19
 vm43: 02 15
 vm44: 02 15
-vm45: 02 06 10 15 20
+vm45: 02 06 11 15 20
 vm46: 02 15
 vm47: 02 15
-vm48: 02 06 10 15 20
+vm48: 02 06 11 15 20
 vm49: 02 15
 vm50: 02 15
-vm51: 02 06 10 15 20
+vm51: 02 06 11 15 20
 vm52: 02 15
 vm53: 02 15
-vm54: 02 06 11 16 20
-vm55: 02 15
-vm56: 02 15
-vm57: 02 06 11 16 20
+vm54: 03 06 11 16 20
+vm55: 03 15
+vm56: 03 15
+vm57: 03 06 11 16 20
 vm58: 03 15
 vm59: 03 15
-vm60: 03 08 13 18
+vm60: 03 08 13 19
 vm61: 03 15
-vm62: 03 15
-vm63: 03 08 13 18
-vm64: 03 15
-vm65: 03 15
-vm66: 03 08 13 18
-vm67: 03 15
+vm62: 03 16
+vm63: 03 08 13 19
+vm64: 03 16
+vm65: 03 16
+vm66: 03 08 13 19
+vm67: 03 16
 vm68: 03 16
 vm69: 03 08 13 19
 vm70: 03 16
 vm71: 03 16
 vm72: 03 08 13 19
-vm73: 03 16
-vm74: 03 16
-vm75: 03 08 13 19
+vm73: 04 16
+vm74: 04 16
+vm75: 04 08 13 19
 vm76: 04 16
 vm77: 04 16
 vm78: 04 08 13 19
@@ -118,16 +118,16 @@ vm82: 04 16
 vm83: 04 16
 vm84: 04 08 13 19
 vm85: 04 16
-vm86: 04 16
-vm87: 04 08 13 19
-vm88: 04 16
-vm89: 04 16
-vm90: 04 08 13 19
-vm91: 04 16
-vm92: 04 17
-vm93: 04 08 13 19
-vm94: 04 17
-vm95: 04 17
+vm86: 04 17
+vm87: 04 08 14 19
+vm88: 04 17
+vm89: 04 17
+vm90: 04 08 14 19
+vm91: 04 17
+vm92: 05 17
+vm93: 05 08 14 19
+vm94: 05 17
+vm95: 05 17
 vm96: 05 11 17
 vm97: 05 17
 vm98: 05 17

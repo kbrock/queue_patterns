@@ -1,67 +1,71 @@
 block_until_done
 
-00:00 WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 0=>98
+00:00 WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 0=>100
            
-00:00 WAIT q=98
+00:00 WAIT q=100
            ..................
 00:01 WAIT q=80
            ....................
 00:02 WAIT q=60
            ....................
 00:03 WAIT q=40
-           ..................
-00:04 WAIT q=22
            ....................
+00:04 WAIT q=20
+           ..................
 00:05 WAIT q=2
            ....
+00:06 OVER q=0
 00:06 WORK AAAAAAAAAAAAAAAAAAAA q: 0=>19
            
 00:06 WAIT q=19
            ....................
-00:08 WORK AAAAAAAAAAAA q: 0=>11
+00:08 WORK AAAAAAAAAAAAA q: 0=>12
            
-00:08 WAIT q=11
-           ............
-00:10 WORK AAAAAAAAAAAAAAAAAAAA q: 0=>19
+00:08 WAIT q=12
+           .............
+00:10 WORK AAAAAAAAAAAAAAAAAAA q: 0=>19
            
 00:10 WAIT q=19
-           ....................
-00:12 WORK +++++++++++++++++++++++++AAAAAAAAAAAAAA q: 0=>38
+           ...................
+00:12 WORK +++++++++++++++++++++++++AAAAAAAAAAAAAAA q: 0=>38
            
 00:12 WAIT q=38
            ..................
-00:13 WAIT q=19
+00:13 WAIT q=20
            ....................
-00:14 WORK AAAAAAAAAAAAA+A++A++A++A++A++++++++++++++++++A q: 0=>46
+00:14 OVER q=0
+00:14 WORK AAAAAAAAAAAAA+A++A++A++A++A++++++++++++++++++AA q: 0=>47
            
-00:14 WAIT q=46
-           ..................
+00:14 WAIT q=47
+           ....................
 00:15 WAIT q=27
            ....................
 00:16 WAIT q=7
            .........
-00:17 WORK AAAAAAAAA++A++A++A++A++++A++A q: 0=>28
+00:17 OVER q=0
+00:17 WORK AAAAAAAAA++A++A++A++A++++++A q: 0=>28
            
 00:17 WAIT q=28
            ..................
-00:18 WAIT q=9
-           ...........
+00:18 WAIT q=8
+           ..........
+00:19 OVER q=0
 00:19 WORK AAAAAAAAAAAAAAAAAA q: 0=>17
            
 00:19 WAIT q=17
            ..................
-00:21 WORK AAAAAAAAAAAAA q: 0=>11
+00:21 WORK AAAAAAAAAAAAAA q: 0=>12
            
-00:21 WAIT q=11
-           .............
+00:21 WAIT q=12
+           ..............
 00:23 DONE q=0
 
-q processed 297 messages
-c0: 150
-c1: 147
-pg total writes: 397
-pg total reads:  297
-pg total refreshes: 297
+q processed 299 messages
+c0: 149
+c1: 150
+pg total writes: 399
+pg total reads:  299
+pg total refreshes: 299
 vm00: 00 06 10 14 19
 vm01: 00 12
 vm02: 00 12
@@ -76,19 +80,19 @@ vm10: 00 12
 vm11: 00 12
 vm12: 00 06 10 14 19
 vm13: 00 12
-vm14: 00 12
-vm15: 00 06 10 14 19
-vm16: 00 12
-vm17: 00 12
+vm14: 01 12
+vm15: 01 06 10 14 19
+vm16: 01 12
+vm17: 01 12
 vm18: 01 06 10 14 19
 vm19: 01 12
 vm20: 01 12
 vm21: 01 06 10 14 19
-vm22: 01 12
-vm23: 01 12
+vm22: 01 13
+vm23: 01 13
 vm24: 01 06 10 14 19
-vm25: 01 12
-vm26: 01 12
+vm25: 01 13
+vm26: 01 13
 vm27: 01 06 10 14 19
 vm28: 01 13
 vm29: 01 13
@@ -96,37 +100,37 @@ vm30: 01 06 10 14 19
 vm31: 01 13
 vm32: 01 13
 vm33: 01 06 10 14 19
-vm34: 01 13
-vm35: 01 13
-vm36: 01 06 10 14 19
-vm37: 01 13
+vm34: 02 13
+vm35: 02 13
+vm36: 02 06 10 14 19
+vm37: 02 13
 vm38: 02 14
-vm39: 02 06 10 14 19
-vm40: 02 14
-vm41: 02 14
-vm42: 02 06 10 15 19
+vm39: 02 06 10 15 19
+vm40: 02 15
+vm41: 02 15
+vm42: 02 07 11 15 20
 vm43: 02 15
 vm44: 02 15
-vm45: 02 06 10 15 19
+vm45: 02 07 11 15 20
 vm46: 02 15
 vm47: 02 15
-vm48: 02 06 10 15 19
+vm48: 02 07 11 15 20
 vm49: 02 15
 vm50: 02 15
-vm51: 02 06 10 15 19
+vm51: 02 07 11 15 20
 vm52: 02 15
 vm53: 02 15
-vm54: 02 07 13 17 21
-vm55: 02 15
-vm56: 02 15
-vm57: 02 07 13 17 21
+vm54: 03 07 13 17 21
+vm55: 03 15
+vm56: 03 15
+vm57: 03 07 13 17 21
 vm58: 03 15
-vm59: 03 15
+vm59: 03 16
 vm60: 03 08 13 17 21
-vm61: 03 15
-vm62: 03 15
+vm61: 03 16
+vm62: 03 16
 vm63: 03 08 13 17 21
-vm64: 03 15
+vm64: 03 16
 vm65: 03 16
 vm66: 03 08 13 17 21
 vm67: 03 16
@@ -136,29 +140,29 @@ vm70: 03 16
 vm71: 03 16
 vm72: 03 08 13 17 21
 vm73: 03 16
-vm74: 03 16
-vm75: 03 08 13 17 21
+vm74: 04 16
+vm75: 04 08 13 17 21
 vm76: 04 16
 vm77: 04 16
 vm78: 04 08 13 17 21
 vm79: 04 17
 vm80: 04 17
-vm81: 04 08 13 17 21
+vm81: 04 08 14 17 21
 vm82: 04 17
 vm83: 04 17
-vm84: 04 08 13 17 21
-vm85: 04 17
-vm86: 04 17
-vm87: 04 08 14 17 21
+vm84: 04 08 14 18 21
+vm85: 04 18
+vm86: 04 18
+vm87: 04 08 14 18 21
 vm88: 04 18
 vm89: 04 18
 vm90: 04 08 14 18
 vm91: 04 18
-vm92: 04 18
-vm93: 04 08 14 16 21
-vm94: 04 18
-vm95: 04 18
-vm96: 05 11 18
+vm92: 05 18
+vm93: 05 08 14 16 21
+vm94: 05 18
+vm95: 05 18
+vm96: 05 08 14 16 21
 vm97: 05 18
 vm98: 05 18
 vm99: 05 11 18

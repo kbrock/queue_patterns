@@ -19,12 +19,19 @@ class Collector # worker
 
   def run
     while (msg = @q.pop(true) rescue nil) do # *** special code of interest
-      if true # client side filtering would go here
+      if filter(msg)
         process(msg)
         print "."
         @processed += 1
+      else
+        print "x"
       end
     end
+  end
+
+  # client side filter
+  def filter(_)
+    true
   end
 
   def process(msg)
@@ -43,6 +50,11 @@ class Coordinator # producer
     @db, @q, @c= db, q, c
   end
 
+  # server side filter
+  def filter(_)
+    true
+  end
+
   def schedule
     puts
     old_sz = @q.size
@@ -51,8 +63,10 @@ class Coordinator # producer
       t = rec.status
       msg = {:id => rec.id, :queued => Time.now}
       if t
-        if true # client filter would go here
+        if filter(msg)
           @q.push(msg)
+        else
+          t = "X"
         end
         print t
       end
@@ -68,13 +82,21 @@ class Coordinator # producer
       sleep(1)
     end
   end
+
   def run
     stop = Time.now + DURATION
     begin
       start = Time.now
       schedule
       @c.run # *** special code of interest
-      sleep([INTERVAL - (Time.now - start), 0].max.round)
+      sleep_time = INTERVAL - (Time.now - start)
+      if sleep_time < 0
+        puts
+        print "00:#{"%02d" % (Time.now - START)} OVER q=#{@q.size}"
+        # print "           "
+      else
+        sleep(sleep_time)
+      end
     end until (start > stop)
     puts "", "00:#{"%02d" % (Time.now - START)} DONE q=#{@q.size}"
     self

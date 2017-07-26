@@ -20,30 +20,19 @@ class Collector # worker
 
   def run
     while (msg = @q.pop(false) rescue nil) do
-      if true
+      if filter(msg)
         process(msg)
         print "."
         @processed += 1
+      else
+        print "x"
       end
     end
   end
 
   # client side filter
-  def filter(msg)
-    id = msg[:id]
-    dt = msg[:queued]
-    previous_run = @filter[id]
-    @attempts += 1
-    if previous_run.nil? || previous_run < dt
-      new_dt = Time.now + PADDING
-      @filter[id] = new_dt
-      yield
-      # new_dt = Time.now #+ PADDING - 1 # -1? just use now?
-      # @filter[id] = new_dt
-    else
-      print "x"
-      false
-    end
+  def filter(_)
+    true
   end
 
   def process(msg)
@@ -77,7 +66,7 @@ class Coordinator # producer
   end
 
   def schedule
-    puts ""
+    puts
     old_sz = @q.size
     print "00:#{"%02d" % (Time.now - START)} WORK "
     @db.all.each do |rec|
@@ -99,6 +88,7 @@ class Coordinator # producer
   def block_until_done
     while !@q.empty?
       puts "", "00:#{"%02d" % (Time.now - START)} WAIT q=#{@q.size}"
+      print "           "
       sleep(1)
     end
   end
@@ -108,7 +98,14 @@ class Coordinator # producer
     begin
       start = Time.now
       schedule
-      sleep([INTERVAL - (Time.now - start), 0].max.round)
+      sleep_time = INTERVAL - (Time.now - start)
+      if sleep_time < 0
+        puts
+        print "00:#{"%02d" % (Time.now - START)} OVER q=#{@q.size}"
+        # print "           "
+      else
+        sleep(sleep_time)
+      end
     end until (start > stop)
     puts "", "00:#{"%02d" % (Time.now - START)} DONE q=#{@q.size}"
     self
@@ -121,12 +118,9 @@ q = Q.new
 filter = Db.new("redis")
 coordinator = Coordinator.new(db, q, filter)
 collectors = COLLECTOR_COUNT.times.map do |n|
-  c = Collector.new(n, db, q, filter)
-  Thread.new(n+1) do
-    c.run
-  end
-  c
+  Collector.new(n, db, q, filter)
 end
+threads = collectors.map { |c| sleep(0.1) ; Thread.new() { c.run } }
 
 coordinator.run.block_until_done
 puts

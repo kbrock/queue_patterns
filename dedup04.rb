@@ -20,10 +20,12 @@ class Collector # worker
 
   def run
     while (msg = @q.pop(false) rescue nil) do
-      filter(msg) do # *** special code of interest
+      if filter(msg)
         process(msg)
         print "."
         @processed += 1
+      else
+        print "x"
       end
     end
   end
@@ -37,11 +39,8 @@ class Collector # worker
     if previous_run.nil? || previous_run < dt
       new_dt = Time.now + PADDING
       @filter[id] = new_dt
-      yield
-      # new_dt = Time.now #+ PADDING - 1 # -1? just use now?
-      # @filter[id] = new_dt
+      true
     else
-      print "x"
       false
     end
   end
@@ -62,16 +61,23 @@ class Coordinator # producer
     @db, @q = db, q
   end
 
+  # server side filter
+  def filter(_)
+    true
+  end
+
   def schedule
-    puts ""
+    puts
     old_sz = @q.size
     print "00:#{"%02d" % (Time.now - START)} WORK "
     @db.all.each do |rec|
       t = rec.status
       msg = {:id => rec.id, :queued => Time.now}
       if t
-        if true # producer filtering would go here
+        if filter(msg)
           @q.push(msg)
+        else
+          t = "X"
         end
         print t
       end
@@ -83,6 +89,7 @@ class Coordinator # producer
   def block_until_done
     while !@q.empty?
       puts "", "00:#{"%02d" % (Time.now - START)} WAIT q=#{@q.size}"
+      print "           "
       sleep(1)
     end
   end
@@ -92,7 +99,14 @@ class Coordinator # producer
     begin
       start = Time.now
       schedule
-      sleep([INTERVAL - (Time.now - start), 0].max.round)
+      sleep_time = INTERVAL - (Time.now - start)
+      if sleep_time < 0
+        puts
+        print "00:#{"%02d" % (Time.now - START)} OVER q=#{@q.size}"
+        # print "           "
+      else
+        sleep(sleep_time)
+      end
     end until (start > stop)
     puts "", "00:#{"%02d" % (Time.now - START)} DONE q=#{@q.size}"
     self
@@ -105,12 +119,9 @@ q = Q.new
 filter = Db.new("redis")
 coordinator = Coordinator.new(db, q)
 collectors = COLLECTOR_COUNT.times.map do |n|
-  c = Collector.new(n, db, q, filter)
-  Thread.new(n+1) do
-    c.run
-  end
-  c
+  Collector.new(n, db, q, filter)
 end
+threads = collectors.map { |c| sleep(0.1) ; Thread.new() { c.run } }
 
 coordinator.run.block_until_done
 puts
