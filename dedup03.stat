@@ -1,37 +1,3 @@
-put_unless_exists
-
-00:00 C WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 0=>100
-             ......................................
-00:02 C WORK NNXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX q: 60=>62
-             ......................................
-00:04 C WORK AAAAAANNXXXXXXXXXXXXXXXXXXXXXX q: 24=>32
-             ..................................
-00:06 C WORK AAAAAAAAAAAAA q: 0=>11
-             .............
-00:08 C WORK AAAAAAAAAAAA q: 0=>11
-             ............
-00:10 C WORK AAAAAAAAAAAAAAAAAAAAAA q: 0=>21
-             ......................
-00:12 C WORK +++++++++++++++++++++++++AAAAAAAAAAAA q: 0=>37
-             .....................................
-00:14 C WORK AAAAAAAAAAAAAA++A++A++A++A++++++++++++++++ q: 0=>41
-             ......................................
-00:16 C WORK +AA++XX++++++++++++++A++A q: 2=>25
-             ...........................
-00:18 C WORK AAAAAAAAAAAAAAAAAAAAAAAAAAA q: 0=>27
-             ...........................
-00:20 C WORK AAAAA q: 0=>5
-             
-00:20 C DONE q=5
-             
-00:20 C WAIT q=5
-             .....
-q processed 291 messages
-c0: 143
-c1: 148
-pg total writes: 391
-pg total reads:  291
-pg total refreshes: 291
 vm00: 00 05 10 14 18
 vm01: 00 12
 vm02: 00 12

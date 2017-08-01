@@ -30,12 +30,11 @@ dedup examples:
 1. calculate work - do work (inline single)
 2. calculate work - spawn work (wait till they are done)
 3. put unless exists
-4. drop duplicates on floor (timestamp of blocked requests)
+4. filter on client (time where requests will be blocked)
 5. filter on server (same algorithm as 4)
 6. fixed collectors
 ---
 ?. queue for collectors, queue for writers
-?. extra date in pg db (expected_next_process) + requested_on
 ?. queue params separate from actual (queue need refresh, vms to refresh in a separate set)
 ?. "shopping list" a queue consumers (for outside interface), more db like queue for work.
 

@@ -1,37 +1,3 @@
-client filter on date of last processed
-
-00:00 C WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 0=>100
-             ......................................
-00:02 C WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 60=>122
-             ........................................
-00:04 C WORK AAAAAANNNNNNNNNNNNNNNNNNNNNN q: 82=>110
-             .....................xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx......xxxxxxxxxxxxxxxxxxxxxx.
-00:06 C WORK AAAAAAAAAAAAAA q: 0=>13
-             ..............
-00:08 C WORK AAAAAAAAAAAA q: 0=>11
-             ............
-00:10 C WORK AAAAAAAAAAAAAAAAAAAAAA q: 0=>21
-             ......................
-00:12 C WORK +++++++++++++++++++++++++AAAAAAAAAAAA q: 0=>35
-             .....................................
-00:14 C WORK AAAAAAAAAAAAA+A++A++A++A++A++++++++++++++++++ q: 0=>43
-             ......................................
-00:16 C WORK AA+++++++++++++++++++A++A q: 5=>30
-             ........xxxxxxx.................
-00:18 C WORK AAAAAAAAAAAAAAAAAAAAAAAAAAA q: 0=>25
-             ...........................
-00:20 C WORK AAAAA q: 0=>3
-             .....
-00:22 C DONE q=0
-             
-q processed 377 messages
-c0: 142/149
-c1: 144/228
-redis total writes: 286
-redis total reads:  377
-pg total writes: 386
-pg total reads:  286
-pg total refreshes: 286
 vm00: 00 05 10 14 18
 vm01: 00 12
 vm02: 00 12

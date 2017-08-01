@@ -3,7 +3,7 @@
 # override=true
 
 if [ "$1" = "-f" ] ; then
-  touch *.rb
+  override=true
 fi
 
 for i in dedup*.rb ; do
@@ -12,4 +12,13 @@ for i in dedup*.rb ; do
     echo "${i} > ${out}"
     ruby ${i} | tee ${out}
   fi
+
+  out2="${i%.rb}.stat"
+  if [ ${out} -nt ${out2} ] ; then
+    echo "${out} > ${out2}"
+    sed -ne '/vm00/,$ p' ${out} > ${out2}
+  fi
 done
+
+# ... view all stats inline
+# pr -n02 -t -m dedup01.stat dedup02.stat

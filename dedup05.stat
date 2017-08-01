@@ -1,37 +1,3 @@
-server filter on date of last processed
-
-00:00 C WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 0=>100
-             ......................................
-00:02 C WORK XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-             ......................................
-00:04 C WORK AAAAAANNNNNNNNNNNNNNNNNNNNNNNN q: 22=>52
-             ........................................
-00:06 C WORK AAAAAAAAAAAAAA q: 12=>26
-             ............................
-00:08 C WORK AAAAAA q: 0=>5
-             ......
-00:10 C WORK AAAAAAAAAAAAAAAAAAAA q: 0=>18
-             ....................
-00:12 C WORK ++++++++++++++++++++++++A+AAAAAAAAAAAAA q: 0=>38
-             ......................................
-00:14 C WORK AAAAAAAAAAAA+++++++++++++++++++++++++XAAAAAA q: 0=>43
-             ......................................
-00:16 C WORK ++X++X++X+XXXAA q: 4=>13
-             ...............
-00:18 C WORK AAAAAAAAAAAAAAAAAAAAAAAAAA+++++++++ q: 0=>33
-             ...................................
-00:20 C WORK AAAAAAAA q: 0=>6
-             ........
-00:22 C DONE q=0
-             
-q processed 304 messages
-c0: 153
-c1: 151
-redis total writes: 304
-redis total reads:  373
-pg total writes: 404
-pg total reads:  304
-pg total refreshes: 304
 vm00: 00 05 10 14 18
 vm01: 00 12
 vm02: 00 12
