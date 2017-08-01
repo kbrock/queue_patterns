@@ -68,4 +68,4 @@ coordinator.run.block_until_done
 puts
 q.run_status
 collectors.map(&:run_status)
-db.run_status(START)
+db.run_status

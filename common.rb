@@ -32,13 +32,13 @@ class Db
      @mutex.synchronize { @data.values }.select(&block).tap { |recs| @mutex.synchronize { @reads += recs.size } }
   end
 
-  def run_status(start)
+  def run_status(*_)
     puts "#{@name} total writes: #{@writes}"
     puts "#{@name} total reads:  #{@reads}"
     if @data.first.last.respond_to?(:run_status)
       puts "#{@name} total refreshes: #{all.map { |rec| rec.table.size }.inject(&:+)}"
       all.each do |rec|
-        puts rec.run_status(start)
+        puts rec.run_status
       end
     end
   end
@@ -76,8 +76,8 @@ class Record
     self
   end
 
-  def run_status(start)
-    "vm#{"%02d" % id}: #{@table.map { |t| "%02d" % (t - start) }.join(" ")}"
+  def run_status(*_)
+    "vm#{"%02d" % id}: #{@table.map { |t| "%02d" % (t - START) }.join(" ")}"
   end
 end
 

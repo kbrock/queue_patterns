@@ -67,4 +67,4 @@ threads = collectors.map { |c| sleep(0.1) ; Thread.new() { c.run } }
 threads.each{ |t| t.join }
 puts
 collectors.map(&:run_status)
-db.run_status(START)
+db.run_status
