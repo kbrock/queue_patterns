@@ -13,9 +13,13 @@ DELAY           = 0.1 # time each work item takes
 PADDING         = 3 # assume task runs every 3 (or takes 3)
 
 class Collector < WorkerBase
-  def initialize(n, my_n, db, &block)
+  def initialize(my_n, db, block)
     super(my_n, db, [])
-    @filter = block
+    self.filter = block
+  end
+
+  def filter=(value)
+    @filter = value ? text_to_block(value) : nil
   end
 
   def process_mine
@@ -40,11 +44,23 @@ class Collector < WorkerBase
     sleep DELAY
     @db[record.id] = record.touch # save
   end
+
+  # "type;mod%val"
+  def text_to_block(txt)
+    if txt.include?("%")
+      mod, val = txt.split("%")
+      mod = mod.to_i
+      val = val.to_i
+      Proc.new { |r| r.id % mod == val }
+    else
+      raise "bad filter"
+    end
+  end
 end
 
 db = Db.new("pg").junk_data(RECORD_COUNT)
 collectors = COLLECTOR_COUNT.times.map do |n|
-  Collector.new("C", n, db) { |r| r.id % COLLECTOR_COUNT == n }
+  Collector.new(n, db, "#{COLLECTOR_COUNT}%#{n}")
 end
 threads = collectors.map { |c| sleep(0.1) ; Thread.new() { c.run } }
 
