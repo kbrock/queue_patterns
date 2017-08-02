@@ -171,8 +171,8 @@ class WorkerBase
 
   # timer / scheduler (usually for the producer)
   def run_loop(duration, interval)
-    stop = Time.now + duration
-    begin
+    stop = Time.now + duration if duration
+    loop do
       start = Time.now
       old_sz = @q.size
       print "\n00:#{"%02d" % (Time.now - START)} #{@my_n} WORK "
@@ -183,6 +183,7 @@ class WorkerBase
       else
         print "\n#{SPACER}"
       end
+      break if stop && start > stop
       sleep_time = interval - (Time.now - start)
       if sleep_time < 0
         if sleep_time < -0.01
@@ -192,7 +193,7 @@ class WorkerBase
       else
         sleep(sleep_time)
       end
-    end until (start > stop)
+    end
     print "\n00:#{"%02d" % (Time.now - START)} #{@my_n} DONE q=#{@q.size}\n#{SPACER}"
     self
   end

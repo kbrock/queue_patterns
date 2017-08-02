@@ -6,7 +6,7 @@ if [ "$1" = "-f" ] ; then
   override=true
 fi
 
-for i in dedup*.rb ; do
+for i in ${@-dedup*.rb} ; do
   out="${i%.rb}.txt"
   if [ -n "${override}" -o ${i} -nt ${out} ] ; then
     echo "${i} > ${out}"
