@@ -2,9 +2,12 @@
 
 # override=true
 
-if [ "$1" = "-f" ] ; then
-  override=true
-fi
+while getopts f o ; do
+  case "$o" in
+    f)  override=true ;;
+  esac
+done
+shift $(($OPTIND-1))
 
 for i in ${@-dedup*.rb} ; do
   out="${i%.rb}.txt"
