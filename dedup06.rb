@@ -19,7 +19,7 @@ class Collector < WorkerBase
   end
 
   def filter=(value)
-    @filter = value ? text_to_block(value) : nil
+    @filter = text_to_block(value)
   end
 
   def process_mine
@@ -47,7 +47,9 @@ class Collector < WorkerBase
 
   # "type;mod%val"
   def text_to_block(txt)
-    if txt.include?("%")
+    if txt.nil?
+      nil
+    elsif txt.include?("%")
       mod, val = txt.split("%")
       mod = mod.to_i
       val = val.to_i

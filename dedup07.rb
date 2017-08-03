@@ -2,7 +2,7 @@
 require 'thread'
 require_relative 'common'
 
-puts "worker dynamic workload"
+puts "worker dynamic workload ENV"
 
 START = Time.now
 COLLECTOR_COUNT = 2   # number of collectors
