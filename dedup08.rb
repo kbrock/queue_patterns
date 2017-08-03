@@ -82,7 +82,8 @@ class Collector < WorkerBase
     @filter = text_to_block(value)
   end
 
-  def please_shutdown
+  # k8s signal
+  def sig_quit
     @filter = nil
   end
 
@@ -104,17 +105,17 @@ class Collector < WorkerBase
   # basically Collector#run
   def run
     supervisor.collector_added(@my_n)
+    status_check = -> (actual_time) { supervisor.finished_work(@my_n, INTERVAL - actual_time)}
+
     print_with_time("START")
-    # run_loop(nil, INTERVAL) do
-    #   self.filter = supervisor.get_filter(@my_n)
-    #   break if done?
-    #   process_mine
-    # end
-    run_nice(INTERVAL, supervisor) do
+    run_nice(INTERVAL, status_check) do
       self.filter = supervisor.get_filter(@my_n)
       !done? && process_mine
     end
+    printlnq_with_time("DONE")
+
     supervisor.collector_removed(@my_n)
+    self
   end
 
   def process(record) # record is passed in
@@ -136,28 +137,6 @@ class Collector < WorkerBase
       raise "bad filter"
     end
   end
-
-  # to be extracted
-  def run_nice(interval, boss)
-    loop do
-      start = Time.now
-      old_sz = @q.size
-      print_with_time("WORK")
-      has_more = yield
-      new_sz = @q.size
-      if new_sz != old_sz
-        print " q: #{old_sz}=>#{new_sz}\n#{SPACER}"
-      else
-        print "\n#{SPACER}"
-      end
-      sleep_time = interval - (Time.now - start)
-      boss.finished_work(@my_n, sleep_time)
-      break unless has_more
-      sleep(sleep_time) if sleep_time > 0.01
-    end
-    printlnq_with_time("DONE")
-    self
-  end
 end
 
 db = Db.new("pg").junk_data(RECORD_COUNT)
@@ -174,7 +153,7 @@ threads = collectors.map { |c| sleep(0.1) ; Thread.new() { c.run } }
 sleep(DURATION)
 
 s.count = 0
-collectors.map(&:please_shutdown)
+collectors.map(&:sig_quit)
 threads.each{ |t| t.join }
 puts
 

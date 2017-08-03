@@ -164,7 +164,7 @@ class WorkerBase
 
   def block_until_done
     while !@q.empty?
-      print "\n00:#{"%02d" % (Time.now - START)} #{@my_n} WAIT q=#{@q.size}\n#{SPACER}"
+      printlnq_with_time("WAIT")
       sleep(1)
     end
   end
@@ -175,7 +175,7 @@ class WorkerBase
     loop do
       start = Time.now
       old_sz = @q.size
-      print "\n00:#{"%02d" % (Time.now - START)} #{@my_n} WORK "
+      print_with_time("WORK")
       yield
       new_sz = @q.size
       if new_sz != old_sz
@@ -187,15 +187,44 @@ class WorkerBase
       sleep_time = interval - (Time.now - start)
       if sleep_time < 0
         if sleep_time < -0.01
-          print "\n00:#{"%02d" % (Time.now - START)} #{@my_n} OVER BY #{"%.3f" % -sleep_time} q=#{@q.size}"
+          print_with_time "OVER BY #{"%.3f" % -sleep_time} q=#{@q.size}"
         end
         # print SPACER
       else
         sleep(sleep_time)
       end
     end
-    print "\n00:#{"%02d" % (Time.now - START)} #{@my_n} DONE q=#{@q.size}\n#{SPACER}"
+    printlnq_with_time("DONE")
     self
+  end
+
+  # run forever
+  # yield returns true to continue looping, else false
+  def run_nice(interval, feedback = nil)
+    loop do
+      start = Time.now
+      old_sz = @q.size
+      print_with_time("WORK")
+      has_more_work = yield
+      new_sz = @q.size
+      if new_sz != old_sz
+        print " q: #{old_sz}=>#{new_sz}\n#{SPACER}"
+      else
+        print "\n#{SPACER}"
+      end
+      time_took = Time.now - start
+      feedback.call(time_took)
+      break unless has_more_work
+      sleep(interval - time_took) if time_took < interval
+    end
+  end
+
+  def printlnq_with_time(message)
+    print_with_time("#{message} q=#{@q.size}\n#{SPACER}")
+  end
+
+  def print_with_time(message)
+    print "\n00:#{"%02d" % (Time.now - START)} #{@my_n} #{message} "
   end
 
   # summary details
