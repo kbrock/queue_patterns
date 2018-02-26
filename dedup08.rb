@@ -41,13 +41,16 @@ class Supervisor < WorkerBase
   end
 
   # http request
-  def finished_work(id, delta = nil)
+  def finished_work(id, delta = nil, given = nil)
     if delta && delta < -0.01
-      print_with_time "OVER BY #{"%.3f" % -delta}"
+      print_with_time "OVER BY #{"%.3f" % -delta}/#{given}"
+    end
+    if delta && delta > given/4 # 25% idle
+      print_with_time "UNDER BY #{"%.3f" % delta}/#{given}"
     end
     # print SPACER
     # feedback mechanism
-    # determine if we need more / less
+    # determine if we need more / fewer nodes
   end
 
   def count=(count)
@@ -105,7 +108,7 @@ class Collector < WorkerBase
   # basically Collector#run
   def run
     supervisor.collector_added(@my_n)
-    status_check = -> (actual_time) { supervisor.finished_work(@my_n, INTERVAL - actual_time)}
+    status_check = -> (actual_time) { supervisor.finished_work(@my_n, INTERVAL - actual_time, INTERVAL)}
 
     print_with_time("START")
     run_nice(INTERVAL, status_check) do
