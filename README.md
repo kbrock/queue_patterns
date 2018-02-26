@@ -4,6 +4,10 @@ We currently have a producer consumer paradigm.
 This repo focuses on the orchestration of the work
 it punts on the queue, database, and spawner.
 
+Also, random numbers were not used because the goal was to make these as repeatable as possible.
+You can compare the sqme input across different solutions.
+
+
 This is from the context of our C&U processing.
 We are using `put_unless_exists` to make sure we don't ask for the same work to be done multiple times
 
