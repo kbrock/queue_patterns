@@ -10,9 +10,9 @@ server filter on date of last processed
              ............................
 00:08 C WORK AAAAAA q: 0=>5
              ......
-00:10 C WORK AAAAAAAAAAAAAAAAAAAA q: 0=>18
+00:10 C WORK AAAAAAAAAAAAAAAAAAAA q: 0=>19
              ....................
-00:12 C WORK ++++++++++++++++++++++++A+AAAAAAAAAAAAA q: 0=>38
+00:12 C WORK ++++++++++++++++++++++++A+AAAAAAAAAAAAA q: 0=>39
              ......................................
 00:14 C WORK AAAAAAAAAAAA+++++++++++++++++++++++++XAAAAAA q: 0=>43
              ......................................
@@ -20,10 +20,12 @@ server filter on date of last processed
              ...............
 00:18 C WORK AAAAAAAAAAAAAAAAAAAAAAAAAA+++++++++ q: 0=>33
              ...................................
-00:20 C WORK AAAAAAAA q: 0=>6
-             ........
-00:22 C DONE q=0
+00:20 C WORK AAAAAAAA q: 0=>8
              
+00:20 C DONE q=8
+             
+00:20 C WAIT q=8
+             ........
 q processed 304 messages
 c0: 153
 c1: 151
@@ -50,10 +52,10 @@ vm14: 01 12
 vm15: 01 05 10 14 18
 vm16: 01 12
 vm17: 01 12
-vm18: 01 07 10 14 18
+vm18: 01 06 10 14 18
 vm19: 01 12
 vm20: 01 12
-vm21: 01 07 10 14 18
+vm21: 01 06 10 14 18
 vm22: 01 13
 vm23: 01 13
 vm24: 01 07 10 14 18
@@ -72,7 +74,7 @@ vm36: 02 07 13 18
 vm37: 02 13
 vm38: 02 14
 vm39: 02 07 13 18
-vm40: 02 14
+vm40: 02 15
 vm41: 02 15
 vm42: 02 07 13 19
 vm43: 02 15

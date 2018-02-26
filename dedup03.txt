@@ -1,34 +1,34 @@
 put_unless_exists
 
-00:00 C WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 0=>100
+00:00 C WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 0=>98
              ......................................
 00:02 C WORK NNXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX q: 60=>62
-             ......................................
-00:04 C WORK AAAAAANNXXXXXXXXXXXXXXXXXXXXXX q: 24=>32
-             ..................................
+             ........................................
+00:04 C WORK AAAAAANNXXXXXXXXXXXXXXXXXXXX q: 22=>30
+             ................................
 00:06 C WORK AAAAAAAAAAAAA q: 0=>11
              .............
-00:08 C WORK AAAAAAAAAAAA q: 0=>11
-             ............
-00:10 C WORK AAAAAAAAAAAAAAAAAAAAAA q: 0=>21
-             ......................
-00:12 C WORK +++++++++++++++++++++++++AAAAAAAAAAAA q: 0=>37
-             .....................................
-00:14 C WORK AAAAAAAAAAAAAA++A++A++A++A++++++++++++++++ q: 0=>41
+00:08 C WORK AAAAAAAAAAA q: 0=>10
+             ...........
+00:10 C WORK AAAAAAAAAAAAAAAAAAAAAAA q: 0=>21
+             .......................
+00:12 C WORK +++++++++++++++++++++++++AAAAAAAAAAA q: 0=>34
+             ....................................
+00:14 C WORK AAAAAAAAAAAAAA++A++A++A++A++++++++++++++++++ q: 0=>42
              ......................................
-00:16 C WORK +AA++XX++++++++++++++A++A q: 2=>25
-             ...........................
-00:18 C WORK AAAAAAAAAAAAAAAAAAAAAAAAAAA q: 0=>27
-             ...........................
-00:20 C WORK AAAAA q: 0=>5
+00:16 C WORK +AA++XXXXA++++++++++++A++A q: 4=>26
+             ............................
+00:18 C WORK AAAAAAAAAAAAAAAAAAAAAAAAAA q: 0=>26
+             ..........................
+00:20 C WORK AAAAAA q: 0=>5
              
 00:20 C DONE q=5
              
 00:20 C WAIT q=5
-             .....
+             ......
 q processed 291 messages
-c0: 143
-c1: 148
+c0: 145
+c1: 146
 pg total writes: 391
 pg total reads:  291
 pg total refreshes: 291
@@ -108,15 +108,15 @@ vm72: 04 08 13 19
 vm73: 04 16
 vm74: 04 16
 vm75: 04 08 13 19
-vm76: 04 05 16
-vm77: 04 05 16
-vm78: 04 08 13 19
-vm79: 04 16
+vm76: 04 16
+vm77: 04 16
+vm78: 04 05 11 16 20
+vm79: 04 05 16
 vm80: 04 16
 vm81: 04 08 13 19
-vm82: 04 16
+vm82: 04 17
 vm83: 04 17
-vm84: 04 08 13 19
+vm84: 04 08 14 19
 vm85: 04 17
 vm86: 04 17
 vm87: 04 08 14 19

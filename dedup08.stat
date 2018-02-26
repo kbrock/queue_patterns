@@ -1,50 +1,3 @@
-worker dynamic workload ENV
-
-00:00 0 START 
-00:00 0 WORK 
-00:00 0 START 
-00:00 0 WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-             N
-00:05 0 OVER BY 3.134 q=0 
-00:05 0 WORK AN
-             
-00:05 0 OVER BY 3.134 q=0 
-00:05 0 WORK AAAAAAAAAAAAAAAAAA
-             A
-             
-00:07 0 WORK 
-00:07 0 WORK AAAAAAAAA
-             A
-             
-00:09 0 WORK 
-00:09 0 WORK AAAAAAAAAAAAAAAAAAAAAAA
-             A
-             
-00:11 0 WORK 
-00:11 0 WORK ++++++++++++++++++++++++++++++++++++++++A++A++A++A++A++A++A++A++A++A++A++A++A++
-             
-00:15 0 OVER BY 2.123 q=0 
-00:15 0 WORK A
-             
-00:15 0 OVER BY 2.101 q=0 
-00:15 0 WORK AAAAAAAAAAAAAAAAAAA
-             A
-             
-00:17 0 WORK 
-00:17 0 WORK AAAAAAAAA
-             A
-             
-00:19 0 WORK 
-00:19 0 WORK AAAAAAAAAAAAAAAAAAAAAAA
-             A
-             
-00:21 0 WORK 
-00:21 0 WORK 
-c0: 144
-c0: 144
-pg total writes: 388
-pg total reads:  800
-pg total refreshes: 288
 vm00: 00 05 09 15 19
 vm01: 00 11
 vm02: 00 11
@@ -72,10 +25,10 @@ vm23: 01 12
 vm24: 01 05 09 15 19
 vm25: 01 12
 vm26: 01 12
-vm27: 01 05 09 15 19
+vm27: 01 05 09 16 20
 vm28: 01 12
 vm29: 01 12
-vm30: 01 05 09 15 19
+vm30: 01 05 09 16 20
 vm31: 01 12
 vm32: 01 12
 vm33: 01 05 09 16 20
@@ -92,10 +45,10 @@ vm43: 02 12
 vm44: 02 12
 vm45: 02 06 10 16 20
 vm46: 02 12
-vm47: 02 12
+vm47: 02 13
 vm48: 02 06 10 16 20
 vm49: 02 13
-vm50: 02 12
+vm50: 02 13
 vm51: 02 06 10 16 20
 vm52: 02 13
 vm53: 02 13
@@ -105,43 +58,43 @@ vm56: 03 13
 vm57: 03 06 10 16 20
 vm58: 03 13
 vm59: 03 13
-vm60: 03 07 13 17
+vm60: 03 07 13 16 20
 vm61: 03 13
 vm62: 03 13
 vm63: 03 07 13 17
 vm64: 03 13
 vm65: 03 13
-vm66: 03 07 13 17
+vm66: 03 07 13 17 20
 vm67: 03 13
 vm68: 03 13
 vm69: 03 07 13 17
 vm70: 03 13
 vm71: 03 14
-vm72: 03 07 14 17
+vm72: 03 07 14 17 20
 vm73: 04 14
 vm74: 04 14
 vm75: 04 07 14 17
 vm76: 04 14
 vm77: 04 14
-vm78: 04 07 14 17
+vm78: 04 07 14 17 20
 vm79: 04 14
 vm80: 04 14
 vm81: 04 07 14 17
 vm82: 04 14
 vm83: 04 14
-vm84: 04 07 14 17
+vm84: 04 07 14 17 20
 vm85: 04 14
 vm86: 04 14
-vm87: 04 07 14 17
+vm87: 04 07 14 18
 vm88: 04 14
 vm89: 04 14
-vm90: 04 10 14 20
+vm90: 04 10 14 21
 vm91: 04 15
 vm92: 04 15
 vm93: 05 10 15 20
 vm94: 05 15
 vm95: 05 15
-vm96: 05 10 15 20
+vm96: 05 10 15 21
 vm97: 05 15
 vm98: 05 15
 vm99: 05 10 15 20
