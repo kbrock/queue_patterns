@@ -28,7 +28,7 @@ class Supervisor # < WorkerBase
     if count > current_count # increase collectors
       @collectors.each_with_index { |c, n| c.filter = "#{count}%#{n}" }
       current_count.upto(count - 1) do |n|
-        c = Collector.new(@id += 1, @db)
+        c = Collector.new(@id += 1 -1, @db)
         c.filter = "#{count}%#{n}"
         @collectors << c
         sleep(0.1) # just for demo display
@@ -79,7 +79,7 @@ class Collector < WorkerBase
 
   # basically Collector#run
   def run
-    print "\n00:#{"%02d" % (Time.now - START)} #{@my_n} START "
+    print_with_time("START")
     run_loop(nil, INTERVAL) do
       break if done?
       process_mine

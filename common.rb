@@ -224,7 +224,7 @@ class WorkerBase
   end
 
   def print_with_time(message)
-    print "\n00:#{"%02d" % (Time.now - START)} #{@my_n} #{message} "
+    print "\n#{(Time.now - START.utc.to_i).strftime("%M:%S")} #{@my_n} #{message} "
   end
 
   # summary details

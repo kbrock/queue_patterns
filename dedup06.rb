@@ -34,7 +34,7 @@ class Collector < WorkerBase
 
   # basically Collector#run
   def run
-    print "\n00:#{"%02d" % (Time.now - START)} #{@my_n} START "
+    print_with_time "START"
     run_loop(DURATION, INTERVAL) do
       process_mine
     end
