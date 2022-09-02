@@ -40,6 +40,7 @@ class Coordinator < WorkerBase
   def run
     run_loop(DURATION, INTERVAL) do
       schedule
+      # wait for all metrics to be collected before requesting more work
       block_until_done
     end
   end

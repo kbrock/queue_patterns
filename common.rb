@@ -1,11 +1,12 @@
 require 'thread'
 
 Thread::abort_on_exception = true
-SPACER          = "             "
+SPACER = " " * 13
 
 # represents an AR database
 # feel like the major flaw here is we do not dup the records
 # In the meantime, please don't change inline but assign back into the db
+# also ignored, implementation has more race conditions with data in transit
 class Db
   def initialize(name)
     @mutex = Mutex.new
@@ -36,7 +37,7 @@ class Db
     puts "#{@name} total writes: #{@writes}"
     puts "#{@name} total reads:  #{@reads}"
     if @data.first.last.respond_to?(:run_status)
-      puts "#{@name} total refreshes: #{all.map { |rec| rec.table.size }.inject(&:+)}"
+      puts "#{@name} total refreshes: #{all.map(&:num_updates).sum}"
       all.each do |rec|
         puts rec.run_status
       end
@@ -44,10 +45,13 @@ class Db
   end
 
   # sorry, but this was common across all and used while testing in irb
+  # this is not thread safe (to avoid skewing the read/write counts)
+  # 
+  # every 3rd record is setup for realtime alerting
   def junk_data(record_count)
     record_count.times { |n|
       id = n
-      self[id] = Record.new(id, n % 3 == 0)
+      @data[id] = Record.new(id, :alert => (n % 3 == 0))
     }
     self
   end
@@ -55,14 +59,20 @@ end
 
 # this is a database record
 class Record
-  attr_accessor :last_updated, :id, :alert, :table
-  def initialize(id, alert = false, last_updated = nil)
+  attr_accessor :last_updated, :id
+  # [Boolean] true if this object has realtime alerts enabled
+  attr_accessor :alert
+  # table of updates
+  attr_accessor :table
+
+  def initialize(id, alert: false, last_updated: nil)
     @id = id
     @alert = alert
     @last_updated = last_updated
     @table = []
   end
 
+  # implementation specific: different objects have different refresh schedules
   def status(dt = Time.now)
     if    last_updated.nil?                ; "N" # New:    always run
     elsif last_updated < (dt - 3) && alert ; "A" # Alert:  every  3 seconds
@@ -70,13 +80,20 @@ class Record
     end
   end
 
+  # TODO: remove START constant pass in "time" (w/ subtracted START)
   def touch(dt = Time.now)
     @table << dt
     @last_updated = dt
     self
   end
 
+  def num_updates
+    @table.size
+  end
+
+  # TODO: remove START constant
   def run_status(*_)
+    # times when this record was updated
     "vm#{"%02d" % id}: #{@table.map { |t| "%02d" % (t - START) }.join(" ")}"
   end
 end
@@ -106,13 +123,16 @@ class Q
     end
   end
 
-  def pop(non_block = false)
+  def pop(blocking = true)
     @mutex.synchronize do
       while true
         if @que.empty?
-          raise ThreadError, "queue empty" if non_block
-          @waiting.push Thread.current
-          @mutex.sleep
+          if blocking
+            @waiting.push Thread.current
+            @mutex.sleep
+          else
+            raise ThreadError, "queue empty"
+          end
         else
           return @que.shift
         end
@@ -120,8 +140,8 @@ class Q
     end
   end
 
-  # We implemented queue so we could
-  # add this method
+  # We implemented this queue class so we could
+  # add this one method
   # otherwise thread / queue would have been faster
   def find(h)
     @mutex.synchronize do
@@ -150,8 +170,8 @@ class WorkerBase
   end
 
   # consumer
-  def process_queue(non_blocking = false)
-    while (msg = @q.pop(non_blocking) rescue nil) do
+  def process_queue(blocking: true)
+    while (msg = @q.pop(blocking) rescue nil) do
       if yield(msg)
         print "."
         @processed += 1
@@ -162,6 +182,8 @@ class WorkerBase
     end
   end
 
+  # used by coordinator to wait for the work to be completed
+  # before starting another round
   def block_until_done
     while !@q.empty?
       printlnq_with_time("WAIT")
@@ -170,53 +192,85 @@ class WorkerBase
   end
 
   # timer / scheduler (usually for the producer)
+  # @param [Integer] duration how long to run the experiment
+  # @param [Integer] interval how frequently to each collection run
+  #                           hopefully how long each collection takes
   def run_loop(duration, interval)
+    # run the experiment for duration given
     stop = Time.now + duration if duration
     loop do
       start = Time.now
       old_sz = @q.size
+      # starting batch of work
       print_with_time("WORK")
       yield
       new_sz = @q.size
       if new_sz != old_sz
-        print " q: #{old_sz}=>#{new_sz}\n#{SPACER}"
-      else
-        print "\n#{SPACER}"
-      end
-      break if stop && start > stop
-      sleep_time = interval - (Time.now - start)
-      if sleep_time < 0
-        if sleep_time < -0.01
-          print_with_time "OVER BY #{"%.3f" % -sleep_time} q=#{@q.size}"
-        end
-        # print SPACER
-      else
-        sleep(sleep_time)
-      end
-    end
-    printlnq_with_time("DONE")
-    self
-  end
-
-  # run forever
-  # yield returns true to continue looping, else false
-  def run_nice(interval, feedback = nil)
-    loop do
-      start = Time.now
-      old_sz = @q.size
-      print_with_time("WORK")
-      has_more_work = yield
-      new_sz = @q.size
-      if new_sz != old_sz
+        # we are either falling behind or getting ahead.
         print " q: #{old_sz}=>#{new_sz}\n#{SPACER}"
       else
         print "\n#{SPACER}"
       end
       time_took = Time.now - start
-      feedback.call(time_took)
+      break if stop && start > stop
+
+      sleep_time = interval - time_took
+      if sleep_time < 0
+        # if the time to start the next batch has passed:
+        # - don't sleep
+        # - print that we took too much time
+        if sleep_time < -0.01
+          print_with_time "OVER BY #{"%.3f" % -sleep_time} q=#{@q.size}"
+        end
+        # print SPACER
+      else
+        # if we have time before the next batch starts:
+        # - sleep (or we could stop and have a scheduler kick us off again)
+        sleep(sleep_time)
+      end
+    end
+    # done with this experiment
+    printlnq_with_time("DONE")
+    self
+  end
+
+  # yield returns true to continue looping, else false
+  # @param [Integer] interval how frequently to each collection run
+  #                           hopefully how long each collection takes
+  # @kwarg [Integer] duration how long to run experiment (nil is forever)
+  #                           if not given, block returns true to continue
+  # @kwarg [Block] feedback 
+  # @yield work to perform
+  def run_nice(interval, duration: nil, feedback: nil)
+    # run the experiment for duration given
+    stop = Time.now + duration if duration
+    feedback ||= -> (time_took, interval) {
+      extra = interval - time_took
+      print_with_time "OVER BY #{"%.3f" % -extra} q=#{@q.size}" if extra < -0.01
+    }
+
+    loop do
+      start = Time.now
+      old_sz = @q.size
+      # starting batch of work
+      print_with_time("WORK")
+      has_more_work = yield
+      has_more_work = (start < stop) if stop
+      new_sz = @q.size
+      if new_sz != old_sz
+        # we are either falling behind or getting ahead.
+        print " q: #{old_sz}=>#{new_sz}\n#{SPACER}"
+      else
+        print "\n#{SPACER}"
+      end
+      time_took = Time.now - start
+      feedback.call(time_took, interval)
       break unless has_more_work
       sleep(interval - time_took) if time_took < interval
     end
+    # done with this experiment
+    printlnq_with_time("DONE")
+    self
   end
 
   def printlnq_with_time(message)
@@ -230,9 +284,9 @@ class WorkerBase
   # summary details
   def run_status(*_)
     if @skipped != 0
-      puts "c#{@my_n}: #{@processed}/#{@processed+@skipped}"
+      puts "c#{@my_n}: processed #{@processed}/#{@processed+@skipped}"
     else
-      puts "c#{@my_n}: #{@processed}"
+      puts "c#{@my_n}: processed #{@processed}"
     end
   end
 end
