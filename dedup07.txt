@@ -1,48 +1,50 @@
 worker dynamic workload ENV
 
-00:00 0 START 
-00:00 0 WORK 
-00:00 0 START 
-00:00 0 WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-             N
-00:05 0 OVER BY 3.134 q=0 
-00:05 0 WORK AN
+00:01 0 START 
+00:01 0 START 
+00:01 0 WORK 
+00:01 0 START 
+00:01 0 START 
+00:01 0 WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
              
-00:05 0 OVER BY 3.134 q=0 
-00:05 0 WORK AAAAAAAAAAAAAAAAAA
+00:06 0 OVER BY 3.143 q=0 
+00:06 0 WORK AN
+             
+00:06 0 OVER BY 3.148 q=0 
+00:06 0 WORK AAAAAAAAAAAAAAAAAA
              A
              
-00:07 0 WORK 
-00:07 0 WORK AAAAAAAAA
+00:08 0 WORK A
+00:08 0 WORK AAAAAAA
+             AA
+             
+00:10 0 WORK A
+00:10 0 WORK AAAAAAAAAAAAAAAAAAAAA
+             AA
+             
+00:12 0 WORK +
+00:12 0 WORK ++++++++++++++++++++++++++++++++++++++A++++AA++++AA++++AA++++AA++++AA++++AA++
+             
+00:16 0 OVER BY 2.113 q=0 
+00:16 0 WORK +AA
+             
+00:16 0 OVER BY 2.112 q=0 
+00:16 0 WORK AAAAAAAAAAAAAAAAA
+             AA
+             
+00:18 0 WORK A
+00:18 0 WORK AAAAAAAA
              A
              
-00:09 0 WORK 
-00:09 0 WORK AAAAAAAAAAAAAAAAAAAAAAA
-             A
+00:20 0 WORK 
+00:20 0 WORK AAAAAAAAAAAAAAAAAAAAAA
+             AA
              
-00:11 0 WORK 
-00:11 0 WORK ++++++++++++++++++++++++++++++++++++++++A++A++A++A++A++A++A++A++A++A++A++A++A++
-             
-00:15 0 OVER BY 2.123 q=0 
-00:15 0 WORK A
-             
-00:15 0 OVER BY 2.101 q=0 
-00:15 0 WORK AAAAAAAAAAAAAAAAAAA
-             A
-             
-00:17 0 WORK 
-00:17 0 WORK AAAAAAAAA
-             A
-             
-00:19 0 WORK 
-00:19 0 WORK AAAAAAAAAAAAAAAAAAAAAAA
-             A
-             
-00:21 0 WORK 
-00:21 0 WORK 
-c0: 144
-c0: 144
-pg total writes: 388
+00:22 0 WORK 
+00:22 0 WORK 
+c0: processed 144
+c0: processed 144
+pg total writes: 288
 pg total reads:  800
 pg total refreshes: 288
 vm00: 00 05 09 15 19
@@ -92,10 +94,10 @@ vm43: 02 12
 vm44: 02 12
 vm45: 02 06 10 16 20
 vm46: 02 12
-vm47: 02 12
+vm47: 02 13
 vm48: 02 06 10 16 20
 vm49: 02 13
-vm50: 02 12
+vm50: 02 13
 vm51: 02 06 10 16 20
 vm52: 02 13
 vm53: 02 13

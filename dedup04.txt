@@ -1,18 +1,19 @@
 client filter on date of last processed
 
+00:00 C START 
 00:00 C WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 0=>100
              ......................................
 00:02 C WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 60=>122
              ......................................
 00:04 C WORK AAAAAANNNNNNNNNNNNNNNNNNNNNNNN q: 84=>114
              .......................xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx......xxxxxxxxxxxxxxxxxxxxxxxx.
-00:06 C WORK AAAAAAAAAAAAAA q: 0=>13
+00:06 C WORK AAAAAAAAAAAAAA q: 0=>14
              ..............
-00:08 C WORK AAAAAAAAAAAA q: 0=>11
+00:08 C WORK AAAAAAAAAAAA q: 0=>12
              ............
-00:10 C WORK AAAAAAAAAAAAAAAAAAAAAA q: 0=>21
+00:10 C WORK AAAAAAAAAAAAAAAAAAAAAA q: 0=>22
              ......................
-00:12 C WORK +++++++++++++++++++++++++AAAAAAAAAAAA q: 0=>35
+00:12 C WORK +++++++++++++++++++++++++AAAAAAAAAAAA q: 0=>37
              .....................................
 00:14 C WORK AAAAAAAAAAAAA+A++A++A++A++A++++++++++++++++ q: 0=>43
              ......................................
@@ -23,15 +24,15 @@ client filter on date of last processed
 00:20 C WORK AAAAA q: 0=>5
              
 00:20 C DONE q=5
-             
+              
 00:20 C WAIT q=5
-             .....
+              .....
 q processed 377 messages
-c0: 142/147
-c1: 144/230
+c0: processed 144/235
+c1: processed 142
 redis total writes: 286
 redis total reads:  377
-pg total writes: 386
+pg total writes: 286
 pg total reads:  286
 pg total refreshes: 286
 vm00: 00 05 10 14 18
@@ -86,16 +87,16 @@ vm48: 02 06 11 15 20
 vm49: 02 15
 vm50: 02 15
 vm51: 02 06 11 15 20
-vm52: 03 15
-vm53: 03 15
+vm52: 02 15
+vm53: 02 15
 vm54: 03 06 11 16 20
 vm55: 03 15
 vm56: 03 15
 vm57: 03 06 11 16 20
 vm58: 03 15
-vm59: 03 16
+vm59: 03 15
 vm60: 03 08 13 19
-vm61: 03 16
+vm61: 03 15
 vm62: 03 16
 vm63: 03 08 13 19
 vm64: 03 16
@@ -120,9 +121,9 @@ vm82: 04 16
 vm83: 04 16
 vm84: 04 08 13 19
 vm85: 04 16
-vm86: 04 17
+vm86: 04 16
 vm87: 04 08 14 19
-vm88: 04 17
+vm88: 04 16
 vm89: 04 17
 vm90: 04 08 14 19
 vm91: 04 17

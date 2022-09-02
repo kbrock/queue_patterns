@@ -1,5 +1,6 @@
 server filter on date of last processed
 
+00:00 C START 
 00:00 C WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 0=>100
              ......................................
 00:02 C WORK XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -8,9 +9,9 @@ server filter on date of last processed
              ........................................
 00:06 C WORK AAAAAAAAAAAAAA q: 12=>26
              ............................
-00:08 C WORK AAAAAA q: 0=>5
+00:08 C WORK AAAAAA q: 0=>6
              ......
-00:10 C WORK AAAAAAAAAAAAAAAAAAAA q: 0=>19
+00:10 C WORK AAAAAAAAAAAAAAAAAAAA q: 0=>20
              ....................
 00:12 C WORK ++++++++++++++++++++++++A+AAAAAAAAAAAAA q: 0=>39
              ......................................
@@ -18,20 +19,20 @@ server filter on date of last processed
              ......................................
 00:16 C WORK ++X++X++X+XXXAA q: 4=>13
              ...............
-00:18 C WORK AAAAAAAAAAAAAAAAAAAAAAAAAA+++++++++ q: 0=>33
+00:18 C WORK AAAAAAAAAAAAAAAAAAAAAAAAAA+++++++++ q: 0=>35
              ...................................
 00:20 C WORK AAAAAAAA q: 0=>8
              
 00:20 C DONE q=8
-             
+              
 00:20 C WAIT q=8
-             ........
+              ........
 q processed 304 messages
-c0: 153
-c1: 151
+c0: processed 153
+c1: processed 151
 redis total writes: 304
 redis total reads:  373
-pg total writes: 404
+pg total writes: 304
 pg total reads:  304
 pg total refreshes: 304
 vm00: 00 05 10 14 18
