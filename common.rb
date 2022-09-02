@@ -192,56 +192,15 @@ class WorkerBase
   end
 
   # timer / scheduler (usually for the producer)
-  # @param [Integer] duration how long to run the experiment
-  # @param [Integer] interval how frequently to each collection run
-  #                           hopefully how long each collection takes
-  def run_loop(duration, interval)
-    # run the experiment for duration given
-    stop = Time.now + duration if duration
-    loop do
-      start = Time.now
-      old_sz = @q.size
-      # starting batch of work
-      print_with_time("WORK")
-      yield
-      new_sz = @q.size
-      if new_sz != old_sz
-        # we are either falling behind or getting ahead.
-        print " q: #{old_sz}=>#{new_sz}\n#{SPACER}"
-      else
-        print "\n#{SPACER}"
-      end
-      time_took = Time.now - start
-      break if stop && start > stop
-
-      sleep_time = interval - time_took
-      if sleep_time < 0
-        # if the time to start the next batch has passed:
-        # - don't sleep
-        # - print that we took too much time
-        if sleep_time < -0.01
-          print_with_time "OVER BY #{"%.3f" % -sleep_time} q=#{@q.size}"
-        end
-        # print SPACER
-      else
-        # if we have time before the next batch starts:
-        # - sleep (or we could stop and have a scheduler kick us off again)
-        sleep(sleep_time)
-      end
-    end
-    # done with this experiment
-    printlnq_with_time("DONE")
-    self
-  end
-
   # yield returns true to continue looping, else false
   # @param [Integer] interval how frequently to each collection run
   #                           hopefully how long each collection takes
-  # @kwarg [Integer] duration how long to run experiment (nil is forever)
-  #                           if not given, block returns true to continue
+  # @kwarg [Integer] duration how long to run experiment
+  #                           if not provided, result from the work block is used
   # @kwarg [Block] feedback 
   # @yield work to perform
-  def run_nice(interval, duration: nil, feedback: nil)
+  #        if duration is not provided, block result is true: loop again, false: done
+  def run_loop(interval, duration: nil, feedback: nil)
     # run the experiment for duration given
     stop = Time.now + duration if duration
     feedback ||= -> (time_took, interval) {
@@ -249,6 +208,7 @@ class WorkerBase
       print_with_time "OVER BY #{"%.3f" % -extra} q=#{@q.size}" if extra < -0.01
     }
 
+    print_with_time("START")
     loop do
       start = Time.now
       old_sz = @q.size

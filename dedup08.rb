@@ -110,12 +110,10 @@ class Collector < WorkerBase
     supervisor.collector_added(@my_n)
     status_check = -> (actual_time, interval) { supervisor.finished_work(@my_n, interval - actual_time, interval)}
 
-    print_with_time("START")
-    run_nice(INTERVAL, feedback: status_check) do
+    run_loop(INTERVAL, feedback: status_check) do
       self.filter = supervisor.get_filter(@my_n)
       !done? && process_mine
     end
-    printlnq_with_time("DONE")
 
     supervisor.collector_removed(@my_n)
     self

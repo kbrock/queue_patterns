@@ -4,6 +4,11 @@ require_relative 'common'
 
 puts "block_until_done"
 
+# this is the multi threaded simple version
+# it produces all work then waits for all work to be done before starting again.
+#   note the WAIT text and the queue size decreasing
+# this waiting avoids race conditions
+
 START = Time.now
 COLLECTOR_COUNT = 2   # number of collectors
 RECORD_COUNT    = 100 # number of records in database
@@ -38,7 +43,7 @@ class Coordinator < WorkerBase
   end
 
   def run
-    run_loop(DURATION, INTERVAL) do
+    run_loop(INTERVAL, duration: DURATION) do
       schedule
       # wait for all metrics to be collected before requesting more work
       block_until_done

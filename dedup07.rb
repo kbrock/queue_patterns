@@ -80,9 +80,10 @@ class Collector < WorkerBase
   # basically Collector#run
   def run
     print_with_time("START")
-    run_loop(nil, INTERVAL) do
+    run_loop(INTERVAL) do
       break if done?
       process_mine
+      true # have more work
     end
   end
 

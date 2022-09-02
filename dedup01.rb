@@ -49,7 +49,7 @@ class Coordinator < WorkerBase
   end
 
   def run
-    run_loop(DURATION, INTERVAL) do
+    run_loop(INTERVAL, duration: DURATION) do
       old_sz = @q.size
       schedule
       print " q: #{old_sz}=>#{@q.size}\n#{SPACER}"

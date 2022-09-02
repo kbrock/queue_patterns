@@ -48,7 +48,7 @@ class Coordinator < WorkerBase
   end
 
   def run
-    run_loop(DURATION, INTERVAL) do
+    run_loop(INTERVAL, duration: DURATION) do
       schedule
     end
     self

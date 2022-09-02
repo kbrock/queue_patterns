@@ -35,7 +35,7 @@ class Collector < WorkerBase
   # basically Collector#run
   def run
     print_with_time "START"
-    run_loop(DURATION, INTERVAL) do
+    run_loop(INTERVAL, duration: DURATION) do
       process_mine
     end
   end
