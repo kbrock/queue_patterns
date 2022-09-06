@@ -13,9 +13,9 @@ DELAY           = 0.1 # time each work item takes
 PADDING         = 3 # assume task runs every 3 (or takes 3)
 
 class Collector < WorkerBase
-  def initialize(my_n, db, block)
+  def initialize(my_n, db, filter)
     super(my_n, db, [])
-    self.filter = block
+    self.filter = filter
   end
 
   def filter=(value)
@@ -30,11 +30,11 @@ class Collector < WorkerBase
         @processed += 1
       end
     end
+    true
   end
 
   # basically Collector#run
   def run
-    print_with_time "START"
     run_loop(INTERVAL, duration: DURATION) do
       process_mine
     end
@@ -45,7 +45,8 @@ class Collector < WorkerBase
     @db[record.id] = record.touch # save
   end
 
-  # "type;mod%val"
+  # filter: "type;mod%val" (may want starting id)
+  # future filter may include ems_id and object types
   def text_to_block(txt)
     if txt.nil?
       nil
@@ -68,5 +69,4 @@ threads = collectors.map { |c| sleep(0.1) ; Thread.new() { c.run } }
 
 threads.each{ |t| t.join }
 puts
-collectors.map(&:run_status)
-db.run_status
+(collectors + [db]).map(&:run_status)

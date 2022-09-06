@@ -10,7 +10,7 @@ RECORD_COUNT    = 100 # number of records in database
 INTERVAL        = 2   # frequency of determining if there needs to be work
 DURATION        = 20  # length of test
 DELAY           = 0.1 # time each work item takes
-PADDING         = 3 # assume task runs every 3 seconds or longer
+PADDING         = 3   # assume task runs every 3 seconds or longer
 
 class Collector < WorkerBase
   def run
@@ -28,19 +28,20 @@ class Collector < WorkerBase
 end
 
 class Coordinator < WorkerBase
-  def initialize(n, db, q, filter)
-    super(n, db, q)
-    @filter = filter
+  # server side initializer
+  def initialize(my_n, db, q, timestamps)
+    super(my_n, db, q)
+    @timestamps = timestamps
   end
 
   # server side filter
   def filter(msg)
     id = msg[:id]
     dt = msg[:queued]
-    previous_run = @filter[id]
+    previous_run = @timestamps[id]
     if previous_run.nil? || previous_run < dt
       new_dt = Time.now + PADDING
-      @filter[id] = new_dt # new value for previous_run
+      @timestamps[id] = new_dt # new value for previous_run
       true
     else
       false
@@ -52,13 +53,16 @@ class Coordinator < WorkerBase
       msg = {:id => rec.id, :queued => Time.now}
       if (t = rec.status)
         if filter(msg)
+          @processed += 1
           @q.push(msg)
         else
+          @skipped += 1
           t = "X"
         end
         print t
       end
     end
+    true
   end
 
   def run
@@ -72,8 +76,8 @@ end
 db = Db.new("pg").junk_data(RECORD_COUNT)
 
 q = Q.new
-filter = Db.new("redis")
-coordinator = Coordinator.new("C", db, q, filter)
+timestamps = Db.new("redis")
+coordinator = Coordinator.new("C", db, q, timestamps)
 collectors = COLLECTOR_COUNT.times.map do |n|
   Collector.new(n, db, q)
 end
@@ -81,7 +85,4 @@ threads = collectors.map { |c| sleep(0.1) ; Thread.new() { c.run } }
 
 coordinator.run.block_until_done
 puts
-q.run_status
-collectors.map(&:run_status)
-filter.run_status
-db.run_status
+([coordinator, q] + collectors + [timestamps, db]).map(&:run_status)

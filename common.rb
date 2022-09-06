@@ -110,6 +110,7 @@ class Q
     @waiting = []
     @mutex = Mutex.new
     @count = 0
+    @find = 0
     @max = 0
   end
 
@@ -148,6 +149,7 @@ class Q
   # add this one method
   # otherwise thread / queue would have been faster
   def find(h)
+    @find += 1
     @mutex.synchronize do
       @que.detect { |x| x[:id] == h[:id] }
     end
@@ -163,6 +165,7 @@ class Q
 
   def run_status(*_)
     puts "stats: q processed #{@count} messages"
+    puts "stats: q find #{@find} messages" if @find > 0
     puts "stats: q max size #{@max} messages"
   end
 end
@@ -220,6 +223,7 @@ class WorkerBase
       # starting batch of work
       print_with_time("WORK")
       has_more_work = yield
+      # if running for a fixed duration, ignore has_more_work
       has_more_work = (start < stop) if stop
       new_sz = @q.size
       if new_sz != old_sz

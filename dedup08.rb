@@ -65,12 +65,15 @@ class Supervisor < WorkerBase
     # not sure if we should set a nil to a filter (ask it to go away)
     #   or if that is the job for someone else
     @filters.keys.each_with_index do |id, i|
-      if i <  count
+      if i < count
         @filters[id] = "#{count}%#{i}"
-      else # have too many clients, ask one to go away?
+      else # have too many clients, ask one to go away
         @filters[id] = nil
       end
     end
+  end
+
+  def run_status(*_)
   end
 end
 
@@ -124,7 +127,7 @@ class Collector < WorkerBase
     @db[record.id] = record.touch # save
   end
 
-  # filter: "mod%val"
+  # filter: "type;mod%val" (may want starting id)
   # future filter may include ems_id and object types
   def text_to_block(txt)
     if txt.nil?
@@ -153,10 +156,8 @@ threads = collectors.map { |c| sleep(0.1) ; Thread.new() { c.run } }
 
 sleep(DURATION)
 
-s.count = 0
-collectors.map(&:sig_quit)
-threads.each{ |t| t.join }
+s.count = 0 # this will kill off all collectors
+collectors.map(&:sig_quit) # asking the collectors to finish right away
+threads.each{ |t| t.join } # wait for the threads to finish.
 puts
-
-collectors.map(&:run_status)
-db.run_status
+([s] + collectors + [db]).map(&:run_status)

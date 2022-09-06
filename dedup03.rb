@@ -38,13 +38,16 @@ class Coordinator < WorkerBase
       msg = {:id => rec.id, :queued => Time.now}
       if (t = rec.status)
         if filter(msg)
+          @processed += 1
           @q.push(msg)
         else
-          t = "X"
+          @skipped += 1
+          t = "X" # was already on the queue
         end
         print t
       end
     end
+    true
   end
 
   def run
@@ -66,6 +69,4 @@ threads = collectors.map { |c| sleep(0.1) ; Thread.new() { c.run } }
 
 coordinator.run.block_until_done
 puts
-q.run_status
-collectors.map(&:run_status)
-db.run_status
+([coordinator, q] + collectors + [db]).map(&:run_status)

@@ -42,6 +42,7 @@ class Coordinator < WorkerBase
     @db.all.each do |rec|
       msg = {:id => rec.id, :queued => Time.now}
       if (t = rec.status)
+        @processed += 1
         @q.push(msg)
         print t
       end
@@ -57,6 +58,7 @@ class Coordinator < WorkerBase
       # so we process all the work before we are done
       # this is the only experiment that does this
       @collector.run
+      true
     end
   end
 end
@@ -71,4 +73,4 @@ coordinator = Coordinator.new("C", db, q, collectors.first)
 
 coordinator.run.block_until_done
 puts
-([q] + collectors + [db]).map(&:run_status)
+([coordinator, q] + collectors + [db]).map(&:run_status)

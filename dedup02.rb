@@ -26,7 +26,7 @@ class Collector < WorkerBase
   def process(msg)
     record = @db[msg[:id]]
     sleep DELAY
-    @db[msg[:id]] = record.touch
+    @db[record.id] = record.touch
     true
   end
 end
@@ -36,10 +36,12 @@ class Coordinator < WorkerBase
     @db.all.each do |rec|
       msg = {:id => rec.id, :queued => Time.now}
       if (t = rec.status)
+        @processed += 1
         @q.push(msg)
         print t
       end
     end
+    true
   end
 
   def run
@@ -47,7 +49,9 @@ class Coordinator < WorkerBase
       schedule
       # wait for all metrics to be collected before requesting more work
       block_until_done
+      true
     end
+    self
   end
 end
 
@@ -62,6 +66,4 @@ threads = collectors.map { |c| sleep(0.1) ; Thread.new() { c.run } }
 
 coordinator.run.block_until_done
 puts
-q.run_status
-collectors.map(&:run_status)
-db.run_status
+([coordinator, q] + collectors + [db]).map(&:run_status)

@@ -19,6 +19,8 @@ class Supervisor # < WorkerBase
     @db = db
     @threads = []
     @collectors = []
+    # collectors that have been removed
+    # keep around stale to print final statistics
     @stale = []
   end
 
@@ -26,10 +28,10 @@ class Supervisor # < WorkerBase
     current_count = @collectors.count
     chopping_block = []
     if count > current_count # increase collectors
+      # re-assign the filters
       @collectors.each_with_index { |c, n| c.filter = "#{count}%#{n}" }
       current_count.upto(count - 1) do |n|
-        c = Collector.new(@id += 1 -1, @db)
-        c.filter = "#{count}%#{n}"
+        c = Collector.new(@id += 1 -1, @db, "#{count}%#{n}")
         @collectors << c
         sleep(0.1) # just for demo display
         @threads << Thread.new { c.run }
@@ -37,13 +39,15 @@ class Supervisor # < WorkerBase
     elsif count < current_count # reduce collectors
       count.upto(current_count - 1) do |i|
         c = @collectors.shift
-        c.filter = nil # ask filter to exit
+        c.filter = nil # ask filter to exit (after work is done)
         @stale << c
         chopping_block << @threads.shift
       end
       @collectors.each_with_index { |c, n| c.filter = "#{count}%#{n}" }
     end
     @count = count
+    # wait for the completed threads to finish
+    # in the base of the script, this blocks until all work is done (via s.count = 0)
     chopping_block.each { |t| t.join }
   end
 
@@ -54,9 +58,9 @@ class Supervisor # < WorkerBase
 end
 
 class Collector < WorkerBase
-  def initialize(my_n, db, block = nil)
+  def initialize(my_n, db, filter = nil)
     super(my_n, db, [])
-    self.filter = block
+    self.filter = filter
   end
 
   def filter=(value)
@@ -75,15 +79,15 @@ class Collector < WorkerBase
         @processed += 1
       end
     end
+    true
   end
 
   # basically Collector#run
   def run
-    print_with_time("START")
     run_loop(INTERVAL) do
-      break if done?
+      break if done? # not sure if this should be a pre or post condition
       process_mine
-      true # have more work
+      !done?
     end
   end
 
@@ -92,7 +96,8 @@ class Collector < WorkerBase
     @db[record.id] = record.touch # save
   end
 
-  # "type;mod%val"
+  # filter: "type;mod%val" (may want starting id)
+  # future filter may include ems_id and object types
   def text_to_block(txt)
     if txt.nil?
       nil
@@ -111,7 +116,7 @@ db = Db.new("pg").junk_data(RECORD_COUNT)
 s = Supervisor.new(db)
 s.count = COLLECTOR_COUNT
 sleep(DURATION)
-s.count = 0
+s.count = 0 # this will kill off all collectors
 puts
-s.run_status
-db.run_status
+# collectors are part of the supervisor - no need to calculate
+([s] + [db]).map(&:run_status)
