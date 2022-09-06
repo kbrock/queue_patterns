@@ -4,37 +4,41 @@ server filter on date of last processed
 00:00 C WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 0=>100
              ......................................
 00:02 C WORK XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-             ......................................
-00:04 C WORK AAAAAANNNNNNNNNNNNNNNNNNNNNNNN q: 22=>52
-             ........................................
-00:06 C WORK AAAAAAAAAAAAAA q: 12=>26
-             ............................
+             .......................................
+00:04 C WORK AAAAAANNNNNNNNNNNNNNNNNNNNNNN q: 21=>50
+             .......................................
+00:06 C WORK AAAAAAAAAAAAAA q: 11=>25
+             ...........................
 00:08 C WORK AAAAAA q: 0=>6
              ......
 00:10 C WORK AAAAAAAAAAAAAAAAAAAA q: 0=>20
              ....................
 00:12 C WORK ++++++++++++++++++++++++A+AAAAAAAAAAAAA q: 0=>39
              ......................................
-00:14 C WORK AAAAAAAAAAAA+++++++++++++++++++++++++XAAAAAA q: 0=>43
-             ......................................
-00:16 C WORK ++X++X++X+XXXAA q: 4=>13
+00:14 C WORK AAAAAAAAAAAA+++++++++++++++++++++++++X+AAAAAA q: 0=>44
+             .......................................
+00:16 C WORK +X++X++X++XXXAA q: 4=>13
              ...............
-00:18 C WORK AAAAAAAAAAAAAAAAAAAAAAAAAA+++++++++ q: 0=>35
-             ...................................
+00:18 C WORK AAAAAAAAAAAAAAAAAAAAAAAAAA++++++++ q: 0=>34
+             ..................................
 00:20 C WORK AAAAAAAA q: 0=>8
              
 00:20 C DONE q=8
               
 00:20 C WAIT q=8
               ........
-q processed 304 messages
-c0: processed 153
-c1: processed 151
-redis total writes: 304
-redis total reads:  373
-pg total writes: 304
-pg total reads:  304
-pg total refreshes: 304
+stats: cC: processed 303/372
+stats: q processed 303 messages
+stats: q max size 99 messages
+stats: c0: processed 151
+stats: c1: processed 152
+stats: redis total writes: 303
+stats: redis total reads:  372
+stats: redis total scans:  0
+stats: pg total writes: 303
+stats: pg total reads:  303
+stats: pg total scans:  11
+stats: pg total refreshes: 303
 vm00: 00 05 10 14 18
 vm01: 00 12
 vm02: 00 12
@@ -59,7 +63,7 @@ vm20: 01 12
 vm21: 01 06 10 14 18
 vm22: 01 13
 vm23: 01 13
-vm24: 01 07 10 14 18
+vm24: 01 06 10 14 18
 vm25: 01 13
 vm26: 01 13
 vm27: 01 07 10 14 18
@@ -75,7 +79,7 @@ vm36: 02 07 13 18
 vm37: 02 13
 vm38: 02 14
 vm39: 02 07 13 18
-vm40: 02 15
+vm40: 02 14
 vm41: 02 15
 vm42: 02 07 13 19
 vm43: 02 15
@@ -111,17 +115,17 @@ vm72: 04 08 14 19
 vm73: 04 16
 vm74: 04 16
 vm75: 04 08 14 19
-vm76: 04 05 16
+vm76: 04 16
 vm77: 04 05 16
 vm78: 04 05 10 16 20
 vm79: 04 05 16
 vm80: 04 05 16
 vm81: 04 05 10 16 20
-vm82: 04 06 16
+vm82: 04 05 16
 vm83: 04 06 16
 vm84: 04 06 11 16 20
 vm85: 04 06 16
-vm86: 04 06 19
+vm86: 04 06 16
 vm87: 04 06 11 16 20
 vm88: 04 06 19
 vm89: 04 06 19
@@ -133,5 +137,5 @@ vm94: 05 06 19
 vm95: 05 06 19
 vm96: 05 06 11 16 20
 vm97: 05 06 19
-vm98: 05 06 20
+vm98: 05 06 19
 vm99: 05 06 11 16 20

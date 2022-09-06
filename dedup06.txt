@@ -1,59 +1,59 @@
 worker static workload
 
 00:00 0 START 
-00:00 0 START 
 00:00 0 WORK N
-00:00 1 START 
-00:00 1 START 
-00:00 1 WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+00:01 1 START 
+00:01 1 WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
              
-00:05 0 OVER BY 3.134 q=0 
-00:05 0 WORK N
+00:06 0 OVER BY 3.136 q=0 
+00:06 0 WORK N
              
-00:05 1 OVER BY 3.132 q=0 
-00:05 1 WORK AAAAAAAAAAAAAAAAAAA
+00:06 1 OVER BY 3.135 q=0 
+00:06 1 WORK AAAAAAAAAAAAAAAAAAA
              A
              
-00:07 0 WORK 
-00:07 1 WORK AAAAAAAAA
+00:08 0 WORK 
+00:08 1 WORK AAAAAAAAA
              A
              
-00:09 0 WORK 
-00:09 1 WORK AAAAAAAAAAAAAAAAAAAAAA
+00:10 0 WORK 
+00:10 1 WORK AAAAAAAAAAAAAAAAAAAAAA
              AA
              
-00:11 0 WORK 
-00:11 1 WORK +++++++++++++++++++++++++++++++++++++++AAA+A+AAA+A+A
+00:12 0 WORK 
+00:12 1 WORK +++++++++++++++++++++++++++++++++++++++A+++A+A+AAAAAAAAA
              
-00:14 1 OVER BY 0.668 q=0 
-00:14 1 WORK AAAAAAAAA
+00:15 0 OVER BY 0.965 q=0 
+00:15 0 WORK AAA
              
-00:15 0 OVER BY 1.178 q=0 
-00:15 0 WORK AAAAAAAAAAAA+A+A+A+A+++++++++++++++++
-             +
-00:17 0 WORK +
+00:15 1 OVER BY 0.975 q=0 
+00:15 1 WORK AAAAAAAAAAAAAAAAAA+A+++++++++++++++++++
              
-00:17 1 OVER BY 0.474 q=0 
-00:17 1 WORK A
-             AAAAAAA
+00:17 0 OVER BY 0.162 q=0 
+00:17 0 WORK 
+             ++
+             
+00:17 1 OVER BY 0.157 q=0 
+00:17 1 WORK 
              
 00:19 0 WORK 
-00:19 1 WORK AAAAAAAAAAAAAAAAAAAA
-             AAAAAA
+00:19 1 WORK AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+             A
              
 00:21 0 WORK 
-00:21 1 WORK A
              
 00:21 0 DONE q=0
-              AAAAAAA
+              
+00:21 1 WORK 
              
 00:21 1 DONE q=0
               
-c0: processed 145
-c1: processed 151
-pg total writes: 296
-pg total reads:  900
-pg total refreshes: 296
+stats: c0: processed 144
+stats: c1: processed 144
+stats: pg total writes: 288
+stats: pg total reads:  900
+stats: pg total scans:  18
+stats: pg total refreshes: 288
 vm00: 00 05 09 14 18
 vm01: 00 11
 vm02: 00 11
@@ -84,28 +84,28 @@ vm26: 01 12
 vm27: 01 05 09 14 18
 vm28: 01 12
 vm29: 01 12
-vm30: 01 05 09 15 19
+vm30: 01 05 09 14 18
 vm31: 01 12
 vm32: 01 12
 vm33: 01 05 09 14 19
 vm34: 01 12
 vm35: 02 12
-vm36: 02 05 09 15 19
+vm36: 02 05 09 14 19
 vm37: 02 12
 vm38: 02 12
-vm39: 02 06 10 14 19
+vm39: 02 06 10 15 19
 vm40: 02 12
 vm41: 02 12
 vm42: 02 06 10 15 19
 vm43: 02 12
 vm44: 02 12
-vm45: 02 06 10 14 19
+vm45: 02 06 10 15 19
 vm46: 02 12
 vm47: 02 12
 vm48: 02 06 10 15 19
 vm49: 02 13
 vm50: 02 12
-vm51: 02 06 10 14 19
+vm51: 02 06 10 15 19
 vm52: 02 13
 vm53: 02 13
 vm54: 02 06 10 15 19
@@ -113,44 +113,44 @@ vm55: 03 13
 vm56: 03 13
 vm57: 03 06 10 15 19
 vm58: 03 13
-vm59: 03 15
-vm60: 03 07 13 16 20
-vm61: 03 15
+vm59: 03 13
+vm60: 03 07 13 19
+vm61: 03 13
 vm62: 03 13
-vm63: 03 07 13 16 20
+vm63: 03 07 13 19
 vm64: 03 13
-vm65: 03 15
+vm65: 03 13
 vm66: 03 07 13 19
 vm67: 03 15
-vm68: 03 13
-vm69: 03 07 13 16 20
-vm70: 03 13
+vm68: 03 15
+vm69: 03 07 13 19
+vm70: 03 15
 vm71: 03 15
-vm72: 03 07 14 19
+vm72: 03 07 13 19
 vm73: 04 15
 vm74: 04 15
-vm75: 04 07 13 16 20
+vm75: 04 07 13 19
 vm76: 04 15
 vm77: 04 15
-vm78: 04 07 14 19
+vm78: 04 07 13 19
 vm79: 04 15
 vm80: 04 15
-vm81: 04 07 13 16 20
+vm81: 04 07 14 19
 vm82: 04 15
 vm83: 04 15
 vm84: 04 07 14 19
 vm85: 04 16
 vm86: 04 15
-vm87: 04 07 13 16 21
+vm87: 04 07 14 20
 vm88: 04 16
 vm89: 04 16
-vm90: 04 10 14 19
+vm90: 04 10 14 20
 vm91: 04 16
 vm92: 04 16
-vm93: 05 10 13 17 21
+vm93: 05 10 14 20
 vm94: 05 16
 vm95: 05 16
 vm96: 05 10 14 20
 vm97: 05 16
 vm98: 05 16
-vm99: 05 10 14 17 21
+vm99: 05 10 14 20

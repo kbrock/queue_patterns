@@ -9,13 +9,13 @@ block_until_done
 00:02 C WAIT q=60
               ....................
 00:03 C WAIT q=40
-              ....................
-00:04 C WAIT q=20
               ..................
+00:04 C WAIT q=22
+              ....................
 00:05 C WAIT q=2
               ....
              
-00:06 C OVER BY 4.006 q=0 
+00:06 C OVER BY 4.007 q=0 
 00:06 C WORK AAAAAAAAAAAAAAAAAAAA
 00:06 C WAIT q=20
               ..................
@@ -38,9 +38,9 @@ block_until_done
 00:14 C WAIT q=46
               ...................
 00:15 C WAIT q=26
-              ....................
-00:16 C WAIT q=6
-              ........
+              ...................
+00:16 C WAIT q=7
+              .........
              
 00:17 C OVER BY 1.003 q=0 
 00:17 C WORK AAAAAAAAA++A++A++A++A++++A++A
@@ -59,12 +59,15 @@ block_until_done
              
 00:22 C DONE q=0
               
-q processed 297 messages
-c0: processed 148
-c1: processed 149
-pg total writes: 297
-pg total reads:  297
-pg total refreshes: 297
+stats: cC: processed 297
+stats: q processed 297 messages
+stats: q max size 99 messages
+stats: c0: processed 150
+stats: c1: processed 147
+stats: pg total writes: 297
+stats: pg total reads:  297
+stats: pg total scans:  9
+stats: pg total refreshes: 297
 vm00: 00 06 10 14 19
 vm01: 00 12
 vm02: 00 12
