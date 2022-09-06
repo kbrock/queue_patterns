@@ -1,0 +1,6 @@
+stats: c0: processed 184
+stats: c1: processed 184
+stats: pg total writes: 368
+stats: pg total reads:  900
+stats: pg total scans:  18
+stats: pg total refreshes: 368

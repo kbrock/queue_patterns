@@ -4,28 +4,28 @@
 00:00 C WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN q: 0=>100
              ....................................................................................................
              
-00:10 C OVER BY 8.083 q=0 
+00:10 C OVER BY 8.086 q=0 
 00:10 C WORK AAAAAAAAAAAAAAAAAAAAAAAA q: 0=>24
              ........................
              
-00:12 C OVER BY 0.423 q=0 
-00:12 C WORK ++++++++++++++++AAAAAAAA q: 0=>24
+00:13 C OVER BY 0.424 q=0 
+00:13 C WORK ++++++++++++++++AAAAAAAA q: 0=>24
              ........................
              
 00:15 C OVER BY 0.421 q=0 
 00:15 C WORK AAAAAAAAA++A++A++A++A++A++A++A++AAAA q: 0=>36
              ....................................
              
-00:18 C OVER BY 1.630 q=0 
-00:18 C WORK AAAAAA++++A++A++A++A++A++A++A++A++A++A++AAAA q: 0=>44
+00:19 C OVER BY 1.632 q=0 
+00:19 C WORK AAAAAA++++A++A++A++A++A++A++A++A++A++A++AAAA q: 0=>44
              ............................................
              
-00:23 C OVER BY 2.432 q=0 
+00:23 C OVER BY 2.445 q=0 
 00:23 C WORK A++A++AAAAAAAAAAAAAAAAAA++++++++A++A q: 0=>36
              ....................................
              
-00:26 C OVER BY 1.635 q=0 
-00:26 C DONE q=0
+00:27 C OVER BY 1.633 q=0 
+00:27 C DONE q=0
               
 stats: cC: processed 264
 stats: q processed 264 messages
@@ -50,7 +50,7 @@ vm11: 01 13
 vm12: 01 10 15 19 23
 vm13: 01 13
 vm14: 01 13
-vm15: 01 10 15 19 23
+vm15: 01 10 15 19 24
 vm16: 01 13
 vm17: 01 13
 vm18: 01 10 15 24
@@ -128,7 +128,7 @@ vm89: 09 25
 vm90: 09 14 22
 vm91: 09 25
 vm92: 09 26
-vm93: 09 14 22
+vm93: 09 14 23
 vm94: 09 26
 vm95: 09 26
 vm96: 09 18 26

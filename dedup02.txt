@@ -15,7 +15,7 @@ block_until_done
 00:05 C WAIT q=2
               ....
              
-00:06 C OVER BY 4.007 q=0 
+00:06 C OVER BY 4.008 q=0 
 00:06 C WORK AAAAAAAAAAAAAAAAAAAA
 00:06 C WAIT q=20
               ..................
@@ -42,7 +42,7 @@ block_until_done
 00:16 C WAIT q=7
               .........
              
-00:17 C OVER BY 1.003 q=0 
+00:17 C OVER BY 1.004 q=0 
 00:17 C WORK AAAAAAAAA++A++A++A++A++++A++A
 00:17 C WAIT q=29
               ..................
@@ -62,8 +62,8 @@ block_until_done
 stats: cC: processed 297
 stats: q processed 297 messages
 stats: q max size 99 messages
-stats: c0: processed 150
-stats: c1: processed 147
+stats: c0: processed 147
+stats: c1: processed 150
 stats: pg total writes: 297
 stats: pg total reads:  297
 stats: pg total scans:  9
@@ -140,8 +140,8 @@ vm68: 03 16
 vm69: 03 08 13 17 21
 vm70: 03 16
 vm71: 03 16
-vm72: 03 08 13 17 21
-vm73: 03 16
+vm72: 04 08 13 17 21
+vm73: 04 16
 vm74: 04 16
 vm75: 04 08 13 17 21
 vm76: 04 16

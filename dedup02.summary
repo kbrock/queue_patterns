@@ -1,0 +1,9 @@
+stats: cC: processed 297
+stats: q processed 297 messages
+stats: q max size 99 messages
+stats: c0: processed 147
+stats: c1: processed 150
+stats: pg total writes: 297
+stats: pg total reads:  297
+stats: pg total scans:  9
+stats: pg total refreshes: 297

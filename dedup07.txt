@@ -1,46 +1,46 @@
 worker dynamic workload ENV
 
 00:00 0 START 
-00:00 0 WORK N
+00:00 0 WORK 
 00:00 0 START 
-00:00 0 WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+00:00 0 WORK NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
              
 00:05 0 OVER BY 3.137 q=0 
 00:05 0 WORK N
              
-00:06 0 OVER BY 3.141 q=0 
-00:06 0 WORK AAAAAAAAAAAAAAAAAA
-             AA
+00:05 0 OVER BY 3.127 q=0 
+00:05 0 WORK AAAAAAAAAAAAAAAAAAA
+             A
              
-00:07 0 WORK A
-00:08 0 WORK AAAAAAA
-             AA
+00:07 0 WORK 
+00:07 0 WORK AAAAAAAAA
+             A
              
 00:09 0 WORK 
-00:10 0 WORK AAAAAAAAAAAAAAAAAAAAAAA
+00:09 0 WORK AAAAAAAAAAAAAAAAAAAAAAA
              A
              
 00:11 0 WORK 
-00:12 0 WORK ++++++++++++++++++++++++++++++++++++++++A++A++A++A++A++A+AAA+A+A
+00:11 0 WORK ++++++++++++++++++++++++++++++++++++++++A++A++A++A++A++A++A++A++A++A++A++A++A++
              
-00:15 0 OVER BY 1.277 q=0 
-00:15 0 WORK AA+A+AAA+A+AAA+
+00:15 0 OVER BY 2.114 q=0 
+00:15 0 WORK A
              
-00:16 0 OVER BY 2.115 q=0 
-00:16 0 WORK AAAAAA+A+A+A+A+A+A+A
-             +
+00:15 0 OVER BY 2.121 q=0 
+00:15 0 WORK AAAAAAAAAAAAAAAAAAA
+             A
              
-00:17 0 WORK A
+00:17 0 WORK 
+00:17 0 WORK AAAAAAAAA
+             A
              
-00:18 0 WORK AAAAA
-             
-00:19 0 WORK AAAAAAA
-00:20 0 WORK AAAAAAAAAAAAAAAAA
+00:19 0 WORK 
+00:19 0 WORK AAAAAAAAAAAAAAAAAAAAAAA
              
 00:20 0 DONE q=0
-              AAAA
+              A
              
-00:21 0 DONE q=0
+00:20 0 DONE q=0
               
 stats: c0: processed 144
 stats: c0: processed 144
@@ -51,19 +51,19 @@ stats: pg total refreshes: 288
 vm00: 00 05 09 15 19
 vm01: 00 11
 vm02: 00 11
-vm03: 00 05 09 14 18
+vm03: 00 05 09 15 19
 vm04: 00 11
 vm05: 00 11
 vm06: 00 05 09 15 19
 vm07: 00 11
 vm08: 00 11
-vm09: 00 05 09 14 18
+vm09: 00 05 09 15 19
 vm10: 00 11
 vm11: 00 11
 vm12: 00 05 09 15 19
 vm13: 00 11
 vm14: 00 11
-vm15: 01 05 09 14 18
+vm15: 01 05 09 15 19
 vm16: 01 11
 vm17: 01 11
 vm18: 01 05 09 15 19
@@ -81,70 +81,70 @@ vm29: 01 12
 vm30: 01 05 09 15 19
 vm31: 01 12
 vm32: 01 12
-vm33: 01 05 09 15 19
+vm33: 01 05 09 16 20
 vm34: 01 12
 vm35: 02 12
 vm36: 02 05 09 16 20
 vm37: 02 12
 vm38: 02 12
-vm39: 02 06 10 15 19
+vm39: 02 06 10 16 20
 vm40: 02 12
 vm41: 02 12
 vm42: 02 06 10 16 20
 vm43: 02 12
 vm44: 02 12
-vm45: 02 06 10 15 19
+vm45: 02 06 10 16 20
 vm46: 02 12
 vm47: 02 12
 vm48: 02 06 10 16 20
 vm49: 02 13
-vm50: 02 12
-vm51: 02 06 10 15 19
+vm50: 02 13
+vm51: 02 06 10 16 20
 vm52: 02 13
 vm53: 02 13
 vm54: 02 06 10 16 20
 vm55: 03 13
 vm56: 03 13
-vm57: 03 06 10 15 19
+vm57: 03 06 10 16 20
 vm58: 03 13
 vm59: 03 13
 vm60: 03 07 13 17
 vm61: 03 13
 vm62: 03 13
-vm63: 03 07 13 16
+vm63: 03 07 13 17
 vm64: 03 13
 vm65: 03 13
 vm66: 03 07 13 17
 vm67: 03 13
 vm68: 03 13
-vm69: 03 07 13 19
+vm69: 03 07 13 17
 vm70: 03 13
 vm71: 03 14
 vm72: 03 07 14 17
-vm73: 04 14
+vm73: 03 14
 vm74: 04 14
-vm75: 04 07 14 19
+vm75: 04 07 14 17
 vm76: 04 14
-vm77: 04 15
+vm77: 04 14
 vm78: 04 07 14 17
-vm79: 04 15
+vm79: 04 14
 vm80: 04 14
-vm81: 04 07 14 19
+vm81: 04 07 14 17
 vm82: 04 14
-vm83: 04 15
+vm83: 04 14
 vm84: 04 07 14 17
-vm85: 04 16
+vm85: 04 14
 vm86: 04 14
-vm87: 04 07 14 20
+vm87: 04 07 14 17
 vm88: 04 14
-vm89: 04 16
+vm89: 04 14
 vm90: 04 10 14 20
-vm91: 04 16
+vm91: 04 15
 vm92: 04 15
-vm93: 05 10 14 20
+vm93: 05 10 15 20
 vm94: 05 15
-vm95: 05 16
+vm95: 05 15
 vm96: 05 10 15 20
-vm97: 05 16
+vm97: 05 15
 vm98: 05 15
-vm99: 05 10 14 20
+vm99: 05 10 15 20

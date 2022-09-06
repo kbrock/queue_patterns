@@ -1,0 +1,12 @@
+stats: cC: processed 379
+stats: q processed 379 messages
+stats: q max size 121 messages
+stats: c0: processed 144/229
+stats: c1: processed 143/150
+stats: redis total writes: 287
+stats: redis total reads:  379
+stats: redis total scans:  0
+stats: pg total writes: 287
+stats: pg total reads:  287
+stats: pg total scans:  11
+stats: pg total refreshes: 287
