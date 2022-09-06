@@ -13,13 +13,14 @@ class Db
     @data = {}
     @writes = 0
     @reads = 0
+    @scans = 0
     @name = name
   end
 
   def []=(n, v) ; @mutex.synchronize { @writes += 1 ; @data[n] = v } ; end
   def [](n)     ; @mutex.synchronize { @reads += 1 ; @data[n] } ; end
   def all
-    @mutex.synchronize { @data.values } #.map(&:dup)
+    @mutex.synchronize { @scans += 1 ; @data.values } #.map(&:dup)
   end
 
   def size
@@ -30,14 +31,15 @@ class Db
   # records not updated inline (not major if they are)
   # no read and write contention on same records
   def select(&block)
-     @mutex.synchronize { @data.values }.select(&block).tap { |recs| @mutex.synchronize { @reads += recs.size } }
+     @mutex.synchronize { @scans += 1 ; @data.values }.select(&block).tap { |recs| @mutex.synchronize { @reads += recs.size } }
   end
 
   def run_status(*_)
-    puts "#{@name} total writes: #{@writes}"
-    puts "#{@name} total reads:  #{@reads}"
+    puts "stats: #{@name} total writes: #{@writes}"
+    puts "stats: #{@name} total reads:  #{@reads}"
+    puts "stats: #{@name} total scans:  #{@scans}"
     if @data.first.last.respond_to?(:run_status)
-      puts "#{@name} total refreshes: #{all.map(&:num_updates).sum}"
+      puts "stats: #{@name} total refreshes: #{all.map(&:num_updates).sum}"
       all.each do |rec|
         puts rec.run_status
       end
@@ -108,11 +110,13 @@ class Q
     @waiting = []
     @mutex = Mutex.new
     @count = 0
+    @max = 0
   end
 
   def push(obj)
     @mutex.synchronize do
       @count += 1
+      @max = [@max, size].max
       @que.push(obj)
       begin
         t = @waiting.shift
@@ -158,7 +162,8 @@ class Q
   end
 
   def run_status(*_)
-    puts "q processed #{@count} messages"
+    puts "stats: q processed #{@count} messages"
+    puts "stats: q max size #{@max} messages"
   end
 end
 
@@ -244,9 +249,9 @@ class WorkerBase
   # summary details
   def run_status(*_)
     if @skipped != 0
-      puts "c#{@my_n}: processed #{@processed}/#{@processed+@skipped}"
+      puts "stats: c#{@my_n}: processed #{@processed}/#{@processed+@skipped}"
     else
-      puts "c#{@my_n}: processed #{@processed}"
+      puts "stats: c#{@my_n}: processed #{@processed}"
     end
   end
 end
