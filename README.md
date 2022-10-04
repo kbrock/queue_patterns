@@ -133,8 +133,6 @@ Starting with example 6, the definition of a producer and consumer has changed:
 ?. queue params separate from actual (queue need refresh, vms to refresh in a separate set)
 ?. "shopping list" a queue consumers (for outside interface), more db like queue for work.
 
-
-
 # "Fixed collectors" Diagram
 
 ```
@@ -156,6 +154,11 @@ Collector 2:
   filter = "objects.id mod 2 == 1"
 ```
 
-# Summary text meaning
+# Potential Goals
 
-(I wrote this up 5 years later, sorry if I get this wrong)
+- allow workload to be consistent across
+- ? separate collector and persister
+- handle collectors adding, restarting, removing
+- handle collaborator restarting
+
+
